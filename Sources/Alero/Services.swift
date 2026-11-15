@@ -251,7 +251,7 @@ final class MusicService: ObservableObject {
                 artworkData: nil,
                 duration: nil,
                 player: app,
-                playerName: app == "Music" ? "Música" : app
+                playerName: app == "Music" ? tr("Música", "Music") : app
             )
             if info.isPlaying { return info }
             if paused == nil { paused = info }
@@ -468,7 +468,7 @@ final class CalendarService: ObservableObject {
         events = found.prefix(6).map { event in
             EventItem(
                 id: "\(event.eventIdentifier ?? UUID().uuidString)-\(event.startDate.timeIntervalSince1970)",
-                title: event.title ?? "Sin título",
+                title: event.title ?? tr("Sin título", "Untitled"),
                 start: event.startDate,
                 isAllDay: event.isAllDay,
                 joinURL: Self.meetingURL(in: event)

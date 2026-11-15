@@ -2,6 +2,13 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+    <key>CFBundleDevelopmentRegion</key>
+    <string>en</string>
+    <key>CFBundleLocalizations</key>
+    <array>
+        <string>en</string>
+        <string>es</string>
+    </array>
     <key>CFBundleName</key>
     <string>Alero</string>
     <key>CFBundleDisplayName</key>
@@ -25,8 +32,8 @@
     <key>NSPrincipalClass</key>
     <string>NSApplication</string>
     <key>NSAppleEventsUsageDescription</key>
-    <string>Alero lee la canción actual y controla la reproducción en Spotify y Música.</string>
+    <string>Alero reads the current song and controls playback in Spotify and Music.</string>
     <key>NSCalendarsFullAccessUsageDescription</key>
-    <string>Alero muestra tus próximos eventos en el notch.</string>
+    <string>Alero shows your upcoming events in the notch.</string>
 </dict>
 </plist>

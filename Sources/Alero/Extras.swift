@@ -67,28 +67,28 @@ struct SettingsView: View {
 
     var body: some View {
         Form {
-            Section("Pestañas del panel") {
+            Section(tr("Pestañas del panel", "Panel tabs")) {
                 ForEach(AleroTab.allCases) { tab in
                     Toggle(tab.title, isOn: tabBinding(tab))
                 }
             }
             Section("Notch") {
-                Picker("Abrir al pasar el cursor", selection: $settings.openDelay) {
-                    Text("Al instante").tag(0.0)
-                    Text("Tras 0.2 segundos").tag(0.2)
-                    Text("Tras 0.5 segundos").tag(0.5)
+                Picker(tr("Abrir al pasar el cursor", "Open on hover"), selection: $settings.openDelay) {
+                    Text(tr("Al instante", "Instantly")).tag(0.0)
+                    Text(tr("Tras 0.2 segundos", "After 0.2 seconds")).tag(0.2)
+                    Text(tr("Tras 0.5 segundos", "After 0.5 seconds")).tag(0.5)
                 }
-                Toggle("Vibración del trackpad al abrir", isOn: $settings.haptics)
+                Toggle(tr("Vibración del trackpad al abrir", "Trackpad haptic feedback on open"), isOn: $settings.haptics)
             }
-            Section("Indicadores con el panel cerrado") {
-                Toggle("Audio en reproducción", isOn: $settings.showMediaIndicator)
-                Toggle("Animar la onda de audio (usa algo más de GPU)", isOn: $settings.animateIndicator)
-                Toggle("Cargador conectado", isOn: $settings.showChargeNotice)
-                Toggle("Cambios de volumen", isOn: $settings.showVolumeHUD)
-                Toggle("Cambios de brillo", isOn: $settings.showBrightnessHUD)
+            Section(tr("Indicadores con el panel cerrado", "Indicators while the panel is closed")) {
+                Toggle(tr("Audio en reproducción", "Audio playing"), isOn: $settings.showMediaIndicator)
+                Toggle(tr("Animar la onda de audio (usa algo más de GPU)", "Animate the audio wave (uses a bit more GPU)"), isOn: $settings.animateIndicator)
+                Toggle(tr("Cargador conectado", "Charger connected"), isOn: $settings.showChargeNotice)
+                Toggle(tr("Cambios de volumen", "Volume changes"), isOn: $settings.showVolumeHUD)
+                Toggle(tr("Cambios de brillo", "Brightness changes"), isOn: $settings.showBrightnessHUD)
             }
             Section("General") {
-                Toggle("Abrir Alero al iniciar sesión", isOn: loginBinding)
+                Toggle(tr("Abrir Alero al iniciar sesión", "Open Alero at login"), isOn: loginBinding)
             }
         }
         .formStyle(.grouped)
@@ -139,7 +139,7 @@ final class SettingsWindowController {
                 backing: .buffered,
                 defer: false
             )
-            created.title = "Ajustes de Alero"
+            created.title = tr("Ajustes de Alero", "Alero Settings")
             created.isReleasedWhenClosed = false
             created.contentView = NSHostingView(rootView: SettingsView().environmentObject(settings))
             created.center()
@@ -375,15 +375,15 @@ struct ClipboardView: View {
 
     var body: some View {
         if clipboard.items.isEmpty {
-            EmptyHint(icon: "doc.on.clipboard", text: "Lo que copies aparecerá aquí.\nHaz clic en un texto para volver a copiarlo.")
+            EmptyHint(icon: "doc.on.clipboard", text: tr("Lo que copies aparecerá aquí.\nHaz clic en un texto para volver a copiarlo.", "What you copy will show up here.\nClick a text to copy it again."))
         } else {
             VStack(alignment: .leading, spacing: 8) {
                 HStack {
-                    Text("Últimos \(clipboard.items.count) textos copiados")
+                    Text(tr("Últimos \(clipboard.items.count) textos copiados", "Last \(clipboard.items.count) copied texts"))
                         .font(.system(size: 12))
                         .foregroundStyle(Color.white.opacity(0.55))
                     Spacer()
-                    Button("Borrar historial") { clipboard.clear() }
+                    Button(tr("Borrar historial", "Clear history")) { clipboard.clear() }
                         .buttonStyle(.plain)
                         .font(.system(size: 12, weight: .medium))
                         .foregroundStyle(Color.white.opacity(0.75))
@@ -412,7 +412,7 @@ struct ClipboardView: View {
                                 .contentShape(Rectangle())
                             }
                             .buttonStyle(.plain)
-                            .help("Copiar de nuevo")
+                            .help(tr("Copiar de nuevo", "Copy again"))
                         }
                     }
                 }

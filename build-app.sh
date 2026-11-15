@@ -26,6 +26,11 @@ cp -f "$BIN_DIR/Alero" "$APP/Contents/MacOS/Alero"
 cp -f Support/Info.plist "$APP/Contents/Info.plist"
 cp -f Support/AppIcon.icns "$RES/AppIcon.icns"
 cp -f Support/MenuIcon.png "$RES/MenuIcon.png"
+# Textos de permisos en inglés y español.
+for LANG_DIR in en.lproj es.lproj; do
+    mkdir -p "$RES/$LANG_DIR"
+    cp -f "Support/$LANG_DIR/InfoPlist.strings" "$RES/$LANG_DIR/InfoPlist.strings"
+done
 
 # Firma local ("-") para uso propio, o con Developer ID para distribuir.
 sign() {

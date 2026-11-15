@@ -1,0 +1,3 @@
+/* Avisos de permisos que muestra macOS (español) */
+"NSAppleEventsUsageDescription" = "Alero lee la canción actual y controla la reproducción en Spotify y Música.";
+"NSCalendarsFullAccessUsageDescription" = "Alero muestra tus próximos eventos en el notch.";

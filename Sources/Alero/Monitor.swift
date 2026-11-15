@@ -185,8 +185,8 @@ struct MonitorView: View {
                     fraction: monitor.cpuPercent / 100
                 )
                 gauge(
-                    title: "Memoria",
-                    value: String(format: "%.1f de %.0f GB", monitor.memoryUsedGB, monitor.memoryTotalGB),
+                    title: tr("Memoria", "Memory"),
+                    value: String(format: tr("%.1f de %.0f GB", "%.1f of %.0f GB"), monitor.memoryUsedGB, monitor.memoryTotalGB),
                     fraction: monitor.memoryTotalGB > 0 ? monitor.memoryUsedGB / monitor.memoryTotalGB : 0
                 )
             }
@@ -194,17 +194,17 @@ struct MonitorView: View {
 
             VStack(spacing: 6) {
                 HStack(spacing: 6) {
-                    Text("Procesos que más consumen")
+                    Text(tr("Procesos que más consumen", "Top processes"))
                         .font(.system(size: 12))
                         .foregroundStyle(Color.white.opacity(0.55))
                     Spacer()
                     sortButton("CPU", .cpu)
-                    sortButton("Memoria", .memory)
+                    sortButton(tr("Memoria", "Memory"), .memory)
                 }
                 if monitor.rows.isEmpty {
                     EmptyHint(
                         icon: "cpu",
-                        text: monitor.loaded ? "No se pudo leer la lista de procesos." : "Midiendo…"
+                        text: monitor.loaded ? tr("No se pudo leer la lista de procesos.", "Couldn't read the process list.") : tr("Midiendo…", "Measuring…")
                     )
                 } else {
                     ScrollView(showsIndicators: false) {
@@ -250,7 +250,7 @@ struct MonitorView: View {
             .padding(.horizontal, 9)
             .padding(.vertical, 3)
             .background(Capsule().fill(Color.white.opacity(monitor.sort == sort ? 0.22 : 0.08)))
-            .help("Ordenar por \(title)")
+            .help(tr("Ordenar por \(title)", "Sort by \(title)"))
     }
 
     private func processRow(_ row: ProcessRow) -> some View {
@@ -284,7 +284,7 @@ struct MonitorView: View {
                     .foregroundStyle(Color.white.opacity(0.55))
             }
             .buttonStyle(.plain)
-            .help("Cerrar \(row.name)")
+            .help(tr("Cerrar \(row.name)", "Quit \(row.name)"))
             .opacity(row.isApp ? 1 : 0)
             .disabled(!row.isApp)
         }

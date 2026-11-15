@@ -27,13 +27,13 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         let item = NSStatusBar.system.statusItem(withLength: NSStatusItem.variableLength)
         item.button?.image = Self.menuBarIcon()
         let menu = NSMenu()
-        let settingsItem = NSMenuItem(title: "Ajustes…", action: #selector(openSettings), keyEquivalent: ",")
+        let settingsItem = NSMenuItem(title: tr("Ajustes…", "Settings…"), action: #selector(openSettings), keyEquivalent: ",")
         settingsItem.target = self
         menu.addItem(settingsItem)
         menu.addItem(.separator())
         menu.addItem(
             NSMenuItem(
-                title: "Salir de Alero",
+                title: tr("Salir de Alero", "Quit Alero"),
                 action: #selector(NSApplication.terminate(_:)),
                 keyEquivalent: "q"
             )

@@ -1,118 +1,154 @@
 # Alero
 
-App para macOS que convierte el notch en un panel: pasa el cursor por el notch y se abre.
+**English** · [Español](#español)
 
-## Qué incluye
+Alero turns your Mac's notch into a panel: hover over the notch and it opens.
 
-- **Audio del sistema**: lo que suena en cualquier app (video en el navegador, Spotify, Música, etc.), con anterior, pausa, siguiente y barra de progreso (clic para saltar). Mientras suena, aparece un indicador a los lados del notch. Requiere `cmake` al compilar; sin él solo se muestran Spotify y Música.
-- **Batería**: al conectar el cargador, el notch muestra el porcentaje unos segundos. El nivel también aparece dentro del panel.
-- **Volumen y brillo**: al cambiarlos, aparece un indicador con el porcentaje junto al notch.
-- **Archivos**: arrastra archivos al notch; quedan en una bandeja para abrirlos, arrastrarlos a otra app o enviarlos por AirDrop. La bandeja se conserva al reiniciar.
-- **Calendario**: eventos de hoy y mañana, con botón "Unirse" si traen enlace de Meet, Zoom, Teams o Webex.
-- **Portapapeles**: los últimos 20 textos copiados; un clic los vuelve a copiar.
-- **Monitor de recursos**: uso total de CPU y memoria, y los 8 procesos que más consumen, ordenables por CPU o memoria, con botón para cerrar apps. Solo mide mientras la pestaña está abierta.
-- **Ajustes** (icono de la barra de menús): qué pestañas e indicadores mostrar, retraso al abrir, vibración y abrir al iniciar sesión.
-- **Notas y temporizador**: una nota rápida que se guarda sola y un temporizador de 5, 15 o 25 minutos.
+Website: https://notch.samdev.space
 
-Funciona también en pantallas sin notch (aparece en el centro de la barra de menús).
-
-## Requisitos
-
-- macOS 14 o posterior
-- Xcode 15 o posterior (o las Command Line Tools con Swift 5.9+)
-- Para el audio del sistema: `cmake` (`brew install cmake`) y conexión a internet la primera vez
-
-## Compilar y abrir
+## Install
 
 ```bash
-cd ~/Development/Alero
-chmod +x build-app.sh
-./build-app.sh
+curl -fsSL https://notch.samdev.space/install.sh | bash
 ```
 
-El script compila, crea `build/Alero.app`, la firma localmente y la abre.
-Para salir, usa el icono de Alero en la barra de menús.
+Or download `Alero.dmg` from the website and drag the app into Applications. Alero is free.
 
-No uses `swift run`: sin el paquete `.app` macOS no muestra los permisos de calendario y la app se cierra al pedirlos.
+## Features
 
-## Permisos que pedirá macOS
+- **System audio**: what's playing in any app (browser video, Spotify, Music), with previous, pause, next and a progress bar. While something plays, an indicator shows next to the notch.
+- **Battery, volume and brightness**: a small indicator with the percentage when you plug in the charger or change the volume or brightness.
+- **File tray**: drag files onto the notch to keep them handy, open them, drag them into another app or send them with AirDrop.
+- **Calendar**: today's and tomorrow's events, with a "Join" button for Meet, Zoom, Teams or Webex links.
+- **Notes and timer**: a quick note that saves itself and a 5, 15 or 25 minute timer.
+- **Clipboard**: the last 20 texts you copied; one click copies them again.
+- **Resource monitor**: total CPU and memory usage and the top 8 processes, sortable by CPU or memory.
+- **Settings** (menu bar icon): which tabs and indicators to show, open delay, haptics and open at login.
 
-- **Automatización** (Spotify / Música): para leer la canción y controlar la reproducción.
-- **Calendarios**: para listar tus eventos.
+The app follows the system language: Spanish when macOS is in Spanish, English otherwise. It also works on displays without a notch.
 
-Como la firma es local, macOS puede volver a pedir los permisos después de recompilar.
+## Requirements
 
-## Crear el instalador (.dmg)
+- macOS 14 or later, Apple silicon or Intel
+- To build: Xcode 15 or later (or the Command Line Tools with Swift 5.9+)
+- For system audio: `cmake` (`brew install cmake`) and an internet connection the first time
+
+## Build and run
+
+```bash
+bash build-app.sh
+```
+
+The script builds the app, creates `build/Alero.app`, signs it locally and opens it. Quit from the Alero icon in the menu bar. Don't use `swift run`: without the `.app` bundle macOS can't show the permission prompts.
+
+macOS will ask for two permissions: **Automation** (Spotify / Music) and **Calendars**.
+
+## Create the installer
 
 ```bash
 bash make-dmg.sh
 ```
 
-Genera `build/Alero-<versión>.dmg`, compilado para Apple silicon e Intel, con la app y un acceso a Aplicaciones.
+Creates `build/Alero-<version>.dmg` for Apple silicon and Intel and copies it to `website/downloads/Alero.dmg`. Without a paid Apple developer account the installer is unsigned: macOS blocks it on other Macs until the user allows it in System Settings › Privacy & Security. Instructions for signing and notarizing are at the top of `make-dmg.sh`.
 
-- **Sin cuenta de desarrollador**: sirve para pruebas. En otros equipos macOS lo bloquea hasta que el usuario lo autoriza en Ajustes del Sistema > Privacidad y seguridad.
-- **Para publicar**: firma con Developer ID y notariza. Las instrucciones están al inicio de `make-dmg.sh`.
+## Website
 
-## Sitio web de descarga
-
-La carpeta `website/` es el sitio completo, listo para subir a cualquier hosting:
-
-| Archivo | Contenido |
-| --- | --- |
-| `website/index.html` | Página con el botón de descarga y el comando de instalación |
-| `website/install.sh` | Script que ejecuta el comando: descarga el `.dmg`, copia la app a Aplicaciones y la abre |
-| `website/downloads/Alero.dmg` | El instalador; lo coloca ahí `make-dmg.sh` |
-
-El sitio está configurado para `https://notch.samdev.space`. Sube el contenido de `website/` a la raíz de ese dominio, de modo que queden `https://notch.samdev.space/install.sh` y `https://notch.samdev.space/downloads/Alero.dmg`.
-
-### Subir el proyecto a GitHub
-
-```bash
-cd ~/Development/Alero
-git init -b main
-git add .
-git commit -m "Alero: primera versión"
-gh repo create alero --public --source=. --push
-```
-
-El `.gitignore` deja fuera las carpetas de compilación. El instalador `website/downloads/Alero.dmg` sí se sube, para que el sitio pueda servirlo.
-
-### Publicar en Vercel
+The `website/` folder is the full site (`index.html`, `install.sh`, `downloads/Alero.dmg`), in English and Spanish. To publish it on Vercel:
 
 ```bash
 cd website
 npx vercel --prod
 ```
 
-Es un sitio estático: sin framework ni comando de compilación. Después agrega `notch.samdev.space` en Project › Settings › Domains y crea en tu DNS el registro que Vercel indique. `website/vercel.json` hace que `install.sh` se sirva como texto y que las descargas no queden en caché.
+## Project layout
 
-## Rendimiento
-
-- Batería, volumen y audio del sistema funcionan por avisos de macOS, sin consultas periódicas.
-- El resto se revisa con un temporizador ligero que se pausa cuando la pantalla se apaga.
-- Con el panel cerrado no hay animaciones, salvo la onda de audio mientras algo suena. Se puede desactivar en Ajustes, y se desactiva sola con "Reducir movimiento" de macOS.
-- La carátula se guarda en tamaño reducido para no gastar GPU ni memoria.
-
-## Estructura
-
-| Archivo | Contenido |
+| File | Contents |
 | --- | --- |
-| `Sources/Alero/AleroMain.swift` | Arranque de la app e icono de la barra de menús |
-| `Sources/Alero/NotchController.swift` | Ventana sobre el notch, detección del cursor, abrir y cerrar |
-| `Sources/Alero/Services.swift` | Música (AppleScript), bandeja, calendario (EventKit), temporizador |
-| `Sources/Alero/Views.swift` | Interfaz en SwiftUI |
-| `Sources/Alero/Extras.swift` | Ajustes, indicadores de volumen y brillo, portapapeles, barra de progreso |
-| `Sources/Alero/Monitor.swift` | Monitor de recursos (CPU, memoria y procesos) |
-| `Support/Info.plist` | Datos de la app y textos de permisos |
-| `Support/AppIcon.icns` | Icono de la app: una aleta de tiburón (`AppIcon.png` es el original a 1024 px) |
-| `Support/MenuIcon.png` | La misma aleta para la barra de menús |
+| `Sources/Alero/AleroMain.swift` | App start-up and menu bar icon |
+| `Sources/Alero/NotchController.swift` | Window over the notch, hover detection, open and close |
+| `Sources/Alero/Services.swift` | Audio, battery, file tray, calendar, timer |
+| `Sources/Alero/Extras.swift` | Settings, volume and brightness indicators, clipboard, progress bar |
+| `Sources/Alero/Monitor.swift` | Resource monitor |
+| `Sources/Alero/Views.swift` | SwiftUI interface |
+| `Sources/Alero/Strings.swift` | Spanish / English text selection |
+| `Support/` | Info.plist, permission texts in both languages, icons |
 
-## Límites de esta primera versión
+## Limitations
 
-- La bandeja guarda referencias a los archivos, no copias.
-- El indicador de volumen se suma al de macOS, no lo reemplaza. El de brillo usa un framework privado y solo funciona con la pantalla integrada.
-- El monitor no muestra GPU por proceso (macOS no lo ofrece públicamente) y solo puede cerrar apps normales, no procesos del sistema.
+- System audio uses Apple's private MediaRemote framework through [mediaremote-adapter](https://github.com/ungive/mediaremote-adapter). A macOS update may break it; if so, Alero falls back to Spotify and Music only.
+- The brightness indicator uses a private framework and only works with the built-in display.
+- The volume indicator is shown in addition to the macOS one; it doesn't replace it.
+- The resource monitor shows no per-process GPU usage and can only quit regular apps.
+- Clipboard history lives in memory and is cleared when the app quits.
+
+---
+
+## Español
+
+[English](#alero) · **Español**
+
+Alero convierte el notch de tu Mac en un panel: pasa el cursor por el notch y se abre.
+
+Sitio web: https://notch.samdev.space
+
+### Instalar
+
+```bash
+curl -fsSL https://notch.samdev.space/install.sh | bash
+```
+
+O descarga `Alero.dmg` desde el sitio y arrastra la app a Aplicaciones. Alero es gratis.
+
+### Funciones
+
+- **Audio del sistema**: lo que suena en cualquier app (video en el navegador, Spotify, Música), con anterior, pausa, siguiente y barra de progreso. Mientras suena, aparece un indicador junto al notch.
+- **Batería, volumen y brillo**: un indicador con el porcentaje al conectar el cargador o al cambiar el volumen o el brillo.
+- **Bandeja de archivos**: arrastra archivos al notch para tenerlos a la mano, abrirlos, arrastrarlos a otra app o enviarlos por AirDrop.
+- **Calendario**: eventos de hoy y mañana, con botón "Unirse" para enlaces de Meet, Zoom, Teams o Webex.
+- **Notas y temporizador**: una nota rápida que se guarda sola y un temporizador de 5, 15 o 25 minutos.
+- **Portapapeles**: los últimos 20 textos copiados; un clic los vuelve a copiar.
+- **Monitor de recursos**: uso total de CPU y memoria y los 8 procesos que más consumen, ordenables por CPU o memoria.
+- **Ajustes** (icono de la barra de menús): qué pestañas e indicadores mostrar, retraso al abrir, vibración y abrir al iniciar sesión.
+
+La app sigue el idioma del sistema: español si macOS está en español, inglés en cualquier otro caso. También funciona en pantallas sin notch.
+
+### Requisitos
+
+- macOS 14 o posterior, Apple silicon o Intel
+- Para compilar: Xcode 15 o posterior (o las Command Line Tools con Swift 5.9+)
+- Para el audio del sistema: `cmake` (`brew install cmake`) y conexión a internet la primera vez
+
+### Compilar y abrir
+
+```bash
+bash build-app.sh
+```
+
+El script compila, crea `build/Alero.app`, la firma localmente y la abre. Para salir, usa el icono de Alero en la barra de menús. No uses `swift run`: sin el paquete `.app` macOS no puede mostrar los avisos de permisos.
+
+macOS pedirá dos permisos: **Automatización** (Spotify / Música) y **Calendarios**.
+
+### Crear el instalador
+
+```bash
+bash make-dmg.sh
+```
+
+Genera `build/Alero-<versión>.dmg` para Apple silicon e Intel y lo copia a `website/downloads/Alero.dmg`. Sin una cuenta de desarrollador de Apple de pago el instalador va sin firma: macOS lo bloquea en otros equipos hasta que el usuario lo autoriza en Ajustes del Sistema › Privacidad y seguridad. Las instrucciones para firmar y notarizar están al inicio de `make-dmg.sh`.
+
+### Sitio web
+
+La carpeta `website/` es el sitio completo (`index.html`, `install.sh`, `downloads/Alero.dmg`), en inglés y español. Para publicarlo en Vercel:
+
+```bash
+cd website
+npx vercel --prod
+```
+
+### Límites
+
+- El audio del sistema usa el framework privado MediaRemote de Apple a través de [mediaremote-adapter](https://github.com/ungive/mediaremote-adapter). Una actualización de macOS puede romperlo; si pasa, Alero vuelve al modo Spotify y Música.
+- El indicador de brillo usa un framework privado y solo funciona con la pantalla integrada.
+- El indicador de volumen se suma al de macOS; no lo reemplaza.
+- El monitor de recursos no muestra GPU por proceso y solo puede cerrar apps normales.
 - El historial del portapapeles vive en memoria y se borra al cerrar la app.
-- El audio del sistema usa el framework privado MediaRemote de Apple a través de [mediaremote-adapter](https://github.com/ungive/mediaremote-adapter). Una actualización de macOS puede romperlo; si pasa, Alero vuelve solo al modo Spotify y Música.
-- Sin el adaptador, la carátula solo aparece con Spotify.
-- Solo usa una pantalla: la que tiene notch, o la principal si no hay.

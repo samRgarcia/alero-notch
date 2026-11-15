@@ -20,12 +20,12 @@ enum AleroTab: String, CaseIterable, Identifiable {
 
     var title: String {
         switch self {
-        case .music: return "Música"
-        case .files: return "Archivos"
-        case .calendar: return "Calendario"
-        case .notes: return "Notas y temporizador"
-        case .clipboard: return "Portapapeles"
-        case .monitor: return "Monitor de recursos"
+        case .music: return tr("Música", "Music")
+        case .files: return tr("Archivos", "Files")
+        case .calendar: return tr("Calendario", "Calendar")
+        case .notes: return tr("Notas y temporizador", "Notes and timer")
+        case .clipboard: return tr("Portapapeles", "Clipboard")
+        case .monitor: return tr("Monitor de recursos", "Resource monitor")
         }
     }
 }

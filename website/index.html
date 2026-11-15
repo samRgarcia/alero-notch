@@ -1,13 +1,13 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="es" data-lang="es">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Alero · El notch de tu Mac, convertido en panel</title>
-<meta name="description" content="Alero convierte el notch de tu Mac en un panel con música, archivos, calendario, portapapeles y monitor de recursos.">
+<meta name="description" content="Alero turns your Mac&#39;s notch into a panel: now playing, files, calendar, clipboard and resource monitor. Free. / Alero convierte el notch de tu Mac en un panel. Gratis.">
 <link rel="canonical" href="https://notch.samdev.space/">
 <meta property="og:title" content="Alero · El notch de tu Mac, convertido en panel">
-<meta property="og:description" content="Música, archivos, calendario, portapapeles y monitor de recursos en el notch de tu Mac. Gratis.">
+<meta property="og:description" content="Now playing, files, calendar, clipboard and resource monitor in your Mac&#39;s notch. Free. / Todo en el notch de tu Mac. Gratis.">
 <meta property="og:url" content="https://notch.samdev.space/">
 <meta property="og:type" content="website">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='150 215 700 630'%3E%3Cpath d='M255 700Q370 350 665 235Q575 520 745 700Z'/%3E%3Crect x='170' y='745' width='660' height='80' rx='40'/%3E%3C/svg%3E">
@@ -41,6 +41,11 @@ h1 { font-size: clamp(2.5rem, 6.4vw, 4.6rem); font-weight: 700; }
 h2 { font-size: clamp(1.7rem, 3.4vw, 2.4rem); font-weight: 700; }
 h3 { font-size: 1.12rem; font-weight: 700; letter-spacing: -0.01em; }
 p { margin: 0; }
+
+/* Dos idiomas: solo se muestra el que está activo en <html data-lang> */
+html[data-lang="es"] [data-l="en"], html[data-lang="en"] [data-l="es"] { display: none !important; }
+.lang { border: 2px solid var(--ink); background: transparent; color: var(--ink); border-radius: 999px; padding: 6px 12px;
+  font: 600 0.85rem var(--body); cursor: pointer; }
 
 /* Cabecera */
 header.site { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 22px 0; }
@@ -122,38 +127,39 @@ details[open] summary::after { content: "–"; }
 details p { color: var(--muted); margin-top: 10px; max-width: 62ch; }
 
 footer { margin-top: 84px; padding: 26px 0 40px; border-top: 2px solid var(--ink); display: flex; flex-wrap: wrap; justify-content: space-between; gap: 10px; font-size: 0.9rem; color: var(--muted); }
-@media (max-width: 560px) { nav a:not(.btn) { display: none; } .hero { padding-top: 30px; } .wave { display: none; } }
+@media (max-width: 560px) { nav a:not(.btn) { display: none; } nav { gap: 10px; } .hero { padding-top: 30px; } .wave { display: none; } }
 </style>
 </head>
 <body>
 <div class="wrap">
 
   <header class="site">
-    <a class="brand" href="#" aria-label="Alero, inicio">
+    <a class="brand" href="#" aria-label="Alero">
       <svg viewBox="150 215 700 630" aria-hidden="true"><path d="M255 700Q370 350 665 235Q575 520 745 700Z"/><rect x="170" y="745" width="660" height="80" rx="40"/></svg>
       Alero
     </a>
-    <nav aria-label="Secciones">
-      <a href="#funciones">Funciones</a>
-      <a href="#instalar">Instalar</a>
-      <a href="#preguntas">Preguntas</a>
-      <a class="btn small" href="downloads/Alero.dmg" download>Descargar</a>
+    <nav aria-label="Alero">
+      <a href="#funciones"><span data-l="es">Funciones</span><span data-l="en">Features</span></a>
+      <a href="#instalar"><span data-l="es">Instalar</span><span data-l="en">Install</span></a>
+      <a href="#preguntas"><span data-l="es">Preguntas</span><span data-l="en">FAQ</span></a>
+      <button class="lang" type="button" data-lang-toggle aria-label="Cambiar idioma / Switch language">EN</button>
+      <a class="btn small" href="downloads/Alero.dmg" download><span data-l="es">Descargar</span><span data-l="en">Download</span></a>
     </nav>
   </header>
 
   <main>
     <div class="hero">
-      <h1>El notch de tu Mac, convertido en panel.</h1>
-      <p class="lead">Pasa el cursor por el notch y aparece lo que necesitas: lo que está sonando, tus archivos a la mano, tus próximos eventos, lo último que copiaste y cuánto está trabajando tu Mac.</p>
+      <h1><span data-l="es">El notch de tu Mac, convertido en panel.</span><span data-l="en">Your Mac's notch, turned into a panel.</span></h1>
+      <p class="lead"><span data-l="es">Pasa el cursor por el notch y aparece lo que necesitas: lo que está sonando, tus archivos a la mano, tus próximos eventos, lo último que copiaste y cuánto está trabajando tu Mac.</span><span data-l="en">Hover over the notch and what you need appears: what's playing, your files at hand, your upcoming events, what you last copied and how hard your Mac is working.</span></p>
       <div class="actions">
         <a class="btn" href="downloads/Alero.dmg" download>
           <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4v11m0 0l-4.5-4.5M12 15l4.5-4.5M5 20h14"/></svg>
-          Descargar para Mac
+          <span data-l="es">Descargar para Mac</span><span data-l="en">Download for Mac</span>
         </a>
-        <span class="meta">Gratis · Versión 0.1.0 · macOS 14 o posterior · Apple silicon e Intel</span>
+        <span class="meta"><span data-l="es">Gratis · Versión 0.1.0 · macOS 14 o posterior · Apple silicon e Intel</span><span data-l="en">Free · Version 0.1.0 · macOS 14 or later · Apple silicon and Intel</span></span>
       </div>
       <div>
-        <p class="cmd-label">O instálala desde la Terminal:</p>
+        <p class="cmd-label"><span data-l="es">O instálala desde la Terminal:</span><span data-l="en">Or install it from the Terminal:</span></p>
         <div class="cmd">
           <code data-install-command>curl -fsSL https://notch.samdev.space/install.sh | bash</code>
           <button class="copy" type="button" data-copy>Copiar</button>
@@ -162,133 +168,161 @@ footer { margin-top: 84px; padding: 26px 0 40px; border-top: 2px solid var(--ink
 
       <figure class="demo">
         <div class="screen">
-          <div class="menubar"><span>Finder &nbsp; Archivo &nbsp; Edición &nbsp; Visualización</span><span>dom 15 nov &nbsp; 9:41</span></div>
+          <div class="menubar"><span><span data-l="es">Finder &nbsp; Archivo &nbsp; Edición &nbsp; Visualización</span><span data-l="en">Finder &nbsp; File &nbsp; Edit &nbsp; View</span></span><span><span data-l="es">dom 15 nov &nbsp; 9:41</span><span data-l="en">Sun Nov 15 &nbsp; 9:41</span></span></div>
           <div class="panel">
             <div class="panel-top"><span class="tabs"><i></i><i></i><i></i><i></i><i></i><i></i></span><span>87%</span></div>
             <div class="player">
               <div class="cover"><svg viewBox="150 215 700 630" aria-hidden="true"><path d="M255 700Q370 350 665 235Q575 520 745 700Z"/><rect x="170" y="745" width="660" height="80" rx="40"/></svg></div>
-              <div class="track"><b>Marea baja</b><span>Ejemplo de canción · Safari</span><div class="progress"><i></i></div></div>
+              <div class="track"><b><span data-l="es">Marea baja</span><span data-l="en">Low Tide</span></b><span><span data-l="es">Ejemplo de canción · Safari</span><span data-l="en">Sample song · Safari</span></span><div class="progress"><i></i></div></div>
               <div class="wave" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></div>
             </div>
           </div>
         </div>
-        <figcaption>Ilustración del panel abierto sobre el notch, con el reproductor a la vista.</figcaption>
+        <figcaption><span data-l="es">Ilustración del panel abierto sobre el notch, con el reproductor a la vista.</span><span data-l="en">Illustration of the panel open over the notch, showing the player.</span></figcaption>
       </figure>
     </div>
 
     <section id="funciones">
-      <h2>Todo cabe en el notch</h2>
+      <h2><span data-l="es">Todo cabe en el notch</span><span data-l="en">It all fits in the notch</span></h2>
       <div class="features">
         <div class="feature">
           <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 10v4M9 6v12M13 3v18M17 8v8M21 11v2"/></svg>
-          <h3>Lo que suena, de cualquier app</h3>
-          <p>Música o video del navegador, Spotify o Música: título, carátula, progreso y controles.</p>
+          <h3><span data-l="es">Lo que suena, de cualquier app</span><span data-l="en">What's playing, from any app</span></h3>
+          <p><span data-l="es">Música o video del navegador, Spotify o Música: título, carátula, progreso y controles.</span><span data-l="en">Music or video from the browser, Spotify or Music: title, artwork, progress and controls.</span></p>
         </div>
         <div class="feature">
           <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="2" y="8" width="17" height="9" rx="2.5"/><path d="M22 11v3M10.5 9.5l-2 3h3l-2 3"/></svg>
-          <h3>Batería, volumen y brillo</h3>
-          <p>Un aviso discreto con el porcentaje al conectar el cargador o al cambiar el volumen.</p>
+          <h3><span data-l="es">Batería, volumen y brillo</span><span data-l="en">Battery, volume and brightness</span></h3>
+          <p><span data-l="es">Un aviso discreto con el porcentaje al conectar el cargador o al cambiar el volumen.</span><span data-l="en">A discreet indicator with the percentage when you plug in the charger or change the volume.</span></p>
         </div>
         <div class="feature">
           <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 13l2.5-8h13L21 13v5a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1zM3 13h5l1.5 2.5h5L16 13h5"/></svg>
-          <h3>Bandeja de archivos</h3>
-          <p>Arrastra archivos al notch y tenlos a la mano para abrirlos, moverlos o enviarlos por AirDrop.</p>
+          <h3><span data-l="es">Bandeja de archivos</span><span data-l="en">File tray</span></h3>
+          <p><span data-l="es">Arrastra archivos al notch y tenlos a la mano para abrirlos, moverlos o enviarlos por AirDrop.</span><span data-l="en">Drag files onto the notch and keep them handy to open, move or send with AirDrop.</span></p>
         </div>
         <div class="feature">
           <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="3"/><path d="M3 10h18M8 3v4M16 3v4"/></svg>
-          <h3>Calendario con "Unirse"</h3>
-          <p>Tus eventos de hoy y mañana, con un botón para entrar a la videollamada.</p>
+          <h3><span data-l="es">Calendario con "Unirse"</span><span data-l="en">Calendar with "Join"</span></h3>
+          <p><span data-l="es">Tus eventos de hoy y mañana, con un botón para entrar a la videollamada.</span><span data-l="en">Today's and tomorrow's events, with a button to join the video call.</span></p>
         </div>
         <div class="feature">
           <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="4" width="14" height="17" rx="3"/><path d="M9 4.5V3h6v1.5M9 10h6M9 14h6"/></svg>
-          <h3>Portapapeles</h3>
-          <p>Los últimos 20 textos que copiaste; un clic los vuelve a copiar.</p>
+          <h3><span data-l="es">Portapapeles</span><span data-l="en">Clipboard</span></h3>
+          <p><span data-l="es">Los últimos 20 textos que copiaste; un clic los vuelve a copiar.</span><span data-l="en">The last 20 texts you copied; one click copies them again.</span></p>
         </div>
         <div class="feature">
           <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="6" y="6" width="12" height="12" rx="2"/><path d="M9.5 3v3M14.5 3v3M9.5 18v3M14.5 18v3M3 9.5h3M3 14.5h3M18 9.5h3M18 14.5h3"/></svg>
-          <h3>Monitor de recursos</h3>
-          <p>Uso de CPU y memoria, y los procesos que más consumen, sin abrir otra app.</p>
+          <h3><span data-l="es">Monitor de recursos</span><span data-l="en">Resource monitor</span></h3>
+          <p><span data-l="es">Uso de CPU y memoria, y los procesos que más consumen, sin abrir otra app.</span><span data-l="en">CPU and memory usage, and the top processes, without opening another app.</span></p>
         </div>
       </div>
     </section>
 
     <section id="instalar">
-      <h2>Dos formas de instalar</h2>
+      <h2><span data-l="es">Dos formas de instalar</span><span data-l="en">Two ways to install</span></h2>
       <div class="install">
         <div class="card">
-          <h3>Descarga directa</h3>
+          <h3><span data-l="es">Descarga directa</span><span data-l="en">Direct download</span></h3>
           <ol>
-            <li>Descarga el archivo y ábrelo.</li>
-            <li>Arrastra Alero a la carpeta Aplicaciones.</li>
-            <li>Abre Alero desde Aplicaciones.</li>
+            <li><span data-l="es">Descarga el archivo y ábrelo.</span><span data-l="en">Download the file and open it.</span></li>
+            <li><span data-l="es">Arrastra Alero a la carpeta Aplicaciones.</span><span data-l="en">Drag Alero into the Applications folder.</span></li>
+            <li><span data-l="es">Abre Alero desde Aplicaciones.</span><span data-l="en">Open Alero from Applications.</span></li>
           </ol>
-          <a class="btn" href="downloads/Alero.dmg" download style="align-self:flex-start">Descargar Alero.dmg</a>
-          <p class="note">Si macOS dice que no puede abrirla, ve a Ajustes del Sistema › Privacidad y seguridad y pulsa "Abrir igualmente".</p>
+          <a class="btn" href="downloads/Alero.dmg" download style="align-self:flex-start"><span data-l="es">Descargar Alero.dmg</span><span data-l="en">Download Alero.dmg</span></a>
+          <p class="note"><span data-l="es">Si macOS dice que no puede abrirla, ve a Ajustes del Sistema › Privacidad y seguridad y pulsa "Abrir igualmente".</span><span data-l="en">If macOS says it can't be opened, go to System Settings › Privacy &amp; Security and click "Open Anyway".</span></p>
         </div>
         <div class="card">
-          <h3>Con un comando</h3>
-          <p style="color:var(--muted)">Pega esto en la Terminal. Descarga Alero, la copia a Aplicaciones y la abre.</p>
+          <h3><span data-l="es">Con un comando</span><span data-l="en">With one command</span></h3>
+          <p style="color:var(--muted)"><span data-l="es">Pega esto en la Terminal. Descarga Alero, la copia a Aplicaciones y la abre.</span><span data-l="en">Paste this into the Terminal. It downloads Alero, copies it to Applications and opens it.</span></p>
           <div class="cmd">
             <code data-install-command>curl -fsSL https://notch.samdev.space/install.sh | bash</code>
             <button class="copy" type="button" data-copy>Copiar</button>
           </div>
-          <p class="note">El script es corto y puedes leerlo antes de ejecutarlo: <a href="install.sh">ver install.sh</a>.</p>
+          <p class="note"><span data-l="es">El script es corto y puedes leerlo antes de ejecutarlo: <a href="install.sh">ver install.sh</a>.</span><span data-l="en">The script is short and you can read it before running it: <a href="install.sh">view install.sh</a>.</span></p>
         </div>
       </div>
     </section>
 
     <section id="preguntas">
-      <h2>Preguntas frecuentes</h2>
+      <h2><span data-l="es">Preguntas frecuentes</span><span data-l="en">Frequently asked questions</span></h2>
       <details>
-        <summary>¿Cuánto cuesta?</summary>
-        <p>Nada. Alero es gratis: sin pagos, sin suscripción y sin periodo de prueba.</p>
+        <summary><span data-l="es">¿Cuánto cuesta?</span><span data-l="en">How much does it cost?</span></summary>
+        <p><span data-l="es">Nada. Alero es gratis: sin pagos, sin suscripción y sin periodo de prueba.</span><span data-l="en">Nothing. Alero is free: no payments, no subscription and no trial period.</span></p>
       </details>
       <details>
-        <summary>¿Qué permisos pide?</summary>
-        <p>Automatización, para leer y controlar Spotify y Música, y Calendarios, para mostrar tus eventos. Puedes negar cualquiera de los dos y el resto de Alero sigue funcionando.</p>
+        <summary><span data-l="es">¿Qué permisos pide?</span><span data-l="en">What permissions does it ask for?</span></summary>
+        <p><span data-l="es">Automatización, para leer y controlar Spotify y Música, y Calendarios, para mostrar tus eventos. Puedes negar cualquiera de los dos y el resto de Alero sigue funcionando.</span><span data-l="en">Automation, to read and control Spotify and Music, and Calendars, to show your events. You can deny either one and the rest of Alero keeps working.</span></p>
       </details>
       <details>
-        <summary>¿Funciona en un Mac sin notch?</summary>
-        <p>Sí. En pantallas sin notch el panel aparece en el centro de la barra de menús.</p>
+        <summary><span data-l="es">¿Funciona en un Mac sin notch?</span><span data-l="en">Does it work on a Mac without a notch?</span></summary>
+        <p><span data-l="es">Sí. En pantallas sin notch el panel aparece en el centro de la barra de menús.</span><span data-l="en">Yes. On displays without a notch the panel appears at the center of the menu bar.</span></p>
       </details>
       <details>
-        <summary>¿Alero envía mis datos a algún lado?</summary>
-        <p>No. No tiene cuentas ni analíticas y todo funciona en tu Mac. Lo único que descarga de internet es la carátula de la canción cuando usas Spotify.</p>
+        <summary><span data-l="es">¿Alero envía mis datos a algún lado?</span><span data-l="en">Does Alero send my data anywhere?</span></summary>
+        <p><span data-l="es">No. No tiene cuentas ni analíticas y todo funciona en tu Mac. Lo único que descarga de internet es la carátula de la canción cuando usas Spotify.</span><span data-l="en">No. It has no accounts or analytics and everything runs on your Mac. The only thing it downloads from the internet is the song artwork when you use Spotify.</span></p>
       </details>
       <details>
-        <summary>¿Cómo la desinstalo?</summary>
-        <p>Sal de Alero desde su icono en la barra de menús y arrastra la app de Aplicaciones a la Papelera.</p>
+        <summary><span data-l="es">¿Cómo la desinstalo?</span><span data-l="en">How do I uninstall it?</span></summary>
+        <p><span data-l="es">Sal de Alero desde su icono en la barra de menús y arrastra la app de Aplicaciones a la Papelera.</span><span data-l="en">Quit Alero from its menu bar icon and drag the app from Applications to the Trash.</span></p>
       </details>
     </section>
   </main>
 
   <footer>
-    <span>Alero 0.1.0 · Gratis</span>
-    <span>Hecho para macOS 14 o posterior</span>
+    <span><span data-l="es">Alero 0.1.0 · Gratis</span><span data-l="en">Alero 0.1.0 · Free</span></span>
+    <span><span data-l="es">Hecho para macOS 14 o posterior</span><span data-l="en">Made for macOS 14 or later</span></span>
   </footer>
 </div>
 
 <script>
-// El comando usa el dominio donde esté publicada la página, así no hay que editarlo a mano.
+// Idioma: el guardado por el visitante; si no hay, español para navegadores en español e inglés para el resto.
 (function () {
-  var onWeb = location.protocol === "http:" || location.protocol === "https:";
-  var base = onWeb ? location.origin + location.pathname.replace(/[^/]*$/, "") : "https://notch.samdev.space/";
-  var command = "curl -fsSL " + base + "install.sh | bash";
+  var root = document.documentElement;
+  var TEXT = {
+    es: { title: "Alero · El notch de tu Mac, convertido en panel", copy: "Copiar", copied: "Copiado", manual: "Selecciónalo y copia", other: "EN" },
+    en: { title: "Alero · Your Mac's notch, turned into a panel", copy: "Copy", copied: "Copied", manual: "Select it and copy", other: "ES" }
+  };
+  var lang = null;
+  try { lang = localStorage.getItem("alero-lang"); } catch (e) {}
+  if (lang !== "es" && lang !== "en") {
+    lang = (navigator.language || "en").toLowerCase().indexOf("es") === 0 ? "es" : "en";
+  }
+
+  function apply() {
+    root.setAttribute("data-lang", lang);
+    root.setAttribute("lang", lang);
+    document.title = TEXT[lang].title;
+    document.querySelectorAll("[data-copy]").forEach(function (b) { b.textContent = TEXT[lang].copy; });
+    document.querySelectorAll("[data-lang-toggle]").forEach(function (b) { b.textContent = TEXT[lang].other; });
+  }
+  apply();
+
+  document.querySelectorAll("[data-lang-toggle]").forEach(function (button) {
+    button.addEventListener("click", function () {
+      lang = lang === "es" ? "en" : "es";
+      try { localStorage.setItem("alero-lang", lang); } catch (e) {}
+      apply();
+    });
+  });
+
+  // El comando siempre usa el dominio oficial, también en las direcciones de prueba de Vercel.
+  var command = "curl -fsSL https://notch.samdev.space/install.sh | bash";
   document.querySelectorAll("[data-install-command]").forEach(function (el) { el.textContent = command; });
 
   document.querySelectorAll("[data-copy]").forEach(function (button) {
     button.addEventListener("click", function () {
       var text = button.parentElement.querySelector("code").textContent;
       var done = function () {
-        button.textContent = "Copiado";
-        setTimeout(function () { button.textContent = "Copiar"; }, 1600);
+        button.textContent = TEXT[lang].copied;
+        setTimeout(function () { button.textContent = TEXT[lang].copy; }, 1600);
       };
+      var fail = function () { button.textContent = TEXT[lang].manual; };
       if (navigator.clipboard && navigator.clipboard.writeText) {
-        navigator.clipboard.writeText(text).then(done, function () { button.textContent = "Selecciónalo y copia"; });
+        navigator.clipboard.writeText(text).then(done, fail);
       } else {
         var area = document.createElement("textarea");
         area.value = text; document.body.appendChild(area); area.select();
-        try { document.execCommand("copy"); done(); } catch (e) { button.textContent = "Selecciónalo y copia"; }
+        try { document.execCommand("copy"); done(); } catch (e) { fail(); }
         area.remove();
       }
     });

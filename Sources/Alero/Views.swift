@@ -297,18 +297,18 @@ struct MusicView: View {
                 .frame(maxWidth: .infinity, alignment: .leading)
 
                 HStack(spacing: 18) {
-                    control("backward.fill", size: 18, help: "Anterior") { music.previous() }
+                    control("backward.fill", size: 18, help: tr("Anterior", "Previous")) { music.previous() }
                     control(track.isPlaying ? "pause.fill" : "play.fill", size: 28,
-                            help: track.isPlaying ? "Pausar" : "Reproducir") { music.playPause() }
-                    control("forward.fill", size: 18, help: "Siguiente") { music.next() }
+                            help: track.isPlaying ? tr("Pausar", "Pause") : tr("Reproducir", "Play")) { music.playPause() }
+                    control("forward.fill", size: 18, help: tr("Siguiente", "Next")) { music.next() }
                 }
             }
         } else {
             EmptyHint(
                 icon: "music.note",
                 text: music.usesSystemMedia
-                    ? "No hay nada sonando.\nReproduce música o un video en cualquier app."
-                    : "No hay nada sonando.\nAbre Spotify o Música y reproduce una canción."
+                    ? tr("No hay nada sonando.\nReproduce música o un video en cualquier app.", "Nothing is playing.\nPlay music or a video in any app.")
+                    : tr("No hay nada sonando.\nAbre Spotify o Música y reproduce una canción.", "Nothing is playing.\nOpen Spotify or Music and play a song.")
             )
         }
     }
@@ -356,20 +356,20 @@ struct FilesView: View {
 
     var body: some View {
         if tray.items.isEmpty {
-            EmptyHint(icon: "tray.and.arrow.down", text: "Arrastra archivos al notch para tenerlos a la mano.")
+            EmptyHint(icon: "tray.and.arrow.down", text: tr("Arrastra archivos al notch para tenerlos a la mano.", "Drag files onto the notch to keep them handy."))
         } else {
             VStack(alignment: .leading, spacing: 8) {
                 HStack {
-                    Text("\(tray.items.count) en la bandeja")
+                    Text(tr("\(tray.items.count) en la bandeja", "\(tray.items.count) in the tray"))
                         .font(.system(size: 12))
                         .foregroundStyle(Color.white.opacity(0.55))
                     Spacer()
-                    Button("Enviar por AirDrop") { tray.airdrop() }
+                    Button(tr("Enviar por AirDrop", "Send with AirDrop")) { tray.airdrop() }
                         .buttonStyle(.plain)
                         .font(.system(size: 12, weight: .medium))
                         .foregroundStyle(Color.white.opacity(0.75))
                         .padding(.trailing, 10)
-                    Button("Vaciar bandeja") { tray.clear() }
+                    Button(tr("Vaciar bandeja", "Empty tray")) { tray.clear() }
                         .buttonStyle(.plain)
                         .font(.system(size: 12, weight: .medium))
                         .foregroundStyle(Color.white.opacity(0.75))
@@ -407,10 +407,10 @@ struct FileTile: View {
         .onTapGesture { NSWorkspace.shared.open(url) }
         .onDrag { NSItemProvider(object: url as NSURL) }
         .contextMenu {
-            Button("Abrir") { NSWorkspace.shared.open(url) }
-            Button("Mostrar en Finder") { NSWorkspace.shared.activateFileViewerSelecting([url]) }
+            Button(tr("Abrir", "Open")) { NSWorkspace.shared.open(url) }
+            Button(tr("Mostrar en Finder", "Show in Finder")) { NSWorkspace.shared.activateFileViewerSelecting([url]) }
             Divider()
-            Button("Quitar de la bandeja") { tray.remove(url) }
+            Button(tr("Quitar de la bandeja", "Remove from tray")) { tray.remove(url) }
         }
         .help(url.path)
     }
@@ -425,10 +425,10 @@ struct CalendarView: View {
         if calendar.denied {
             EmptyHint(
                 icon: "calendar.badge.exclamationmark",
-                text: "Alero no tiene acceso al calendario.\nActívalo en Ajustes del Sistema > Privacidad y seguridad > Calendarios."
+                text: tr("Alero no tiene acceso al calendario.\nActívalo en Ajustes del Sistema > Privacidad y seguridad > Calendarios.", "Alero doesn't have access to your calendar.\nTurn it on in System Settings > Privacy & Security > Calendars.")
             )
         } else if calendar.events.isEmpty {
-            EmptyHint(icon: "calendar", text: "No tienes eventos para hoy ni mañana.")
+            EmptyHint(icon: "calendar", text: tr("No tienes eventos para hoy ni mañana.", "No events today or tomorrow."))
         } else {
             ScrollView(showsIndicators: false) {
                 VStack(spacing: 6) {
@@ -444,7 +444,7 @@ struct CalendarView: View {
                                 .lineLimit(1)
                             Spacer(minLength: 0)
                             if let url = event.joinURL {
-                                Button("Unirse") { NSWorkspace.shared.open(url) }
+                                Button(tr("Unirse", "Join")) { NSWorkspace.shared.open(url) }
                                     .buttonStyle(.plain)
                                     .font(.system(size: 11, weight: .semibold))
                                     .padding(.horizontal, 10)
@@ -464,8 +464,8 @@ struct CalendarView: View {
     }
 
     private func timeLabel(for event: EventItem) -> String {
-        let day = Calendar.current.isDateInToday(event.start) ? "Hoy" : "Mañana"
-        if event.isAllDay { return "\(day), todo el día" }
+        let day = Calendar.current.isDateInToday(event.start) ? tr("Hoy", "Today") : tr("Mañana", "Tomorrow")
+        if event.isAllDay { return tr("\(day), todo el día", "\(day), all day") }
         return "\(day), \(event.start.formatted(date: .omitted, time: .shortened))"
     }
 }
@@ -482,7 +482,7 @@ struct NotesView: View {
                 RoundedRectangle(cornerRadius: 12, style: .continuous)
                     .fill(Color.white.opacity(0.08))
                 if note.isEmpty {
-                    Text("Escribe una nota rápida")
+                    Text(tr("Escribe una nota rápida", "Write a quick note"))
                         .font(.system(size: 13))
                         .foregroundStyle(Color.white.opacity(0.35))
                         .padding(.horizontal, 13)
@@ -514,7 +514,7 @@ struct NotesView: View {
                 Button {
                     countdown.toggle()
                 } label: {
-                    Label(countdown.running ? "Pausar" : "Iniciar",
+                    Label(countdown.running ? tr("Pausar", "Pause") : tr("Iniciar", "Start"),
                           systemImage: countdown.running ? "pause.fill" : "play.fill")
                         .font(.system(size: 12, weight: .semibold))
                         .frame(maxWidth: .infinity)
