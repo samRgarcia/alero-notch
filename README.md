@@ -60,6 +60,16 @@ cd website
 npx vercel --prod
 ```
 
+## Feature video
+
+The 30-second video on the website is a [HyperFrames](https://github.com/heygen-com/hyperframes) composition in `video/`. To render it again after editing `video/gen.py`:
+
+```bash
+cd video
+python3 gen.py
+npx hyperframes render -o ../website/media/alero-features.mp4
+```
+
 ## Project layout
 
 | File | Contents |
@@ -143,6 +153,16 @@ La carpeta `website/` es el sitio completo (`index.html`, `install.sh`, `downloa
 ```bash
 cd website
 npx vercel --prod
+```
+
+### Video de funciones
+
+El video de 30 segundos del sitio es una composición de [HyperFrames](https://github.com/heygen-com/hyperframes) en `video/`. Para volver a generarlo después de editar `video/gen.py`:
+
+```bash
+cd video
+python3 gen.py
+npx hyperframes render -o ../website/media/alero-features.mp4
 ```
 
 ### Límites

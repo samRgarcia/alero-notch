@@ -1,0 +1,278 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1920, height=1080" />
+    <title>Alero · video de funciones</title>
+    <script src="assets/gsap.min.js"></script>
+    <style>
+@font-face { font-family: "Bricolage"; font-weight: 700; src: url("assets/bricolage-grotesque-latin-700-normal.woff2") format("woff2"); }
+@font-face { font-family: "Plex"; font-weight: 400; src: url("assets/ibm-plex-sans-latin-400-normal.woff2") format("woff2"); }
+@font-face { font-family: "Plex"; font-weight: 500; src: url("assets/ibm-plex-sans-latin-500-normal.woff2") format("woff2"); }
+@font-face { font-family: "Plex"; font-weight: 600; src: url("assets/ibm-plex-sans-latin-600-normal.woff2") format("woff2"); }
+@font-face { font-family: "PlexMono"; font-weight: 500; src: url("assets/ibm-plex-mono-latin-500-normal.woff2") format("woff2"); }
+:root { --paper: #f1eee9; --surface: #fbfaf7; --ink: #111111; --muted: #66625b; --line: #d9d4cc; --notch: #050505; --on: #f4f2ee; --on-muted: #a9a6a0; --tile: #1c1c1c; }
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html, body { width: 1920px; height: 1080px; overflow: hidden; background: var(--paper); }
+#root { position: relative; width: 1920px; height: 1080px; background: var(--paper); color: var(--ink); font-family: "Plex", sans-serif; }
+.scene { position: absolute; left: 0; top: 0; width: 1920px; height: 1080px; }
+svg { display: block; }
+
+/* Portada y cierre */
+.intro { position: absolute; left: 0; top: 0; width: 1920px; height: 1080px; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+.logo { width: 250px; height: 250px; border-radius: 58px; background: var(--ink); display: flex; align-items: center; justify-content: center; }
+.logo svg { width: 150px; height: 150px; fill: var(--paper); }
+.intro h1 { font: 700 190px "Bricolage", sans-serif; letter-spacing: -6px; line-height: 1; margin-top: 40px; }
+.tag { font-size: 50px; margin-top: 22px; }
+.tag.en { color: var(--muted); font-size: 40px; margin-top: 12px; }
+.outro .logo { width: 170px; height: 170px; border-radius: 40px; }
+.outro .logo svg { width: 104px; height: 104px; }
+.outro h1 { font-size: 130px; letter-spacing: -4px; margin-top: 26px; }
+.cmd { margin-top: 44px; border: 4px solid var(--ink); border-radius: 26px; background: var(--surface); padding: 26px 44px; font: 500 46px "PlexMono", monospace; }
+.cmd span { color: var(--muted); }
+.url { margin-top: 34px; font: 700 62px "Bricolage", sans-serif; letter-spacing: -1px; }
+
+/* Pantalla con el notch */
+.screen { position: absolute; left: 160px; top: 84px; width: 1600px; height: 620px; border: 5px solid var(--ink); border-radius: 44px; overflow: hidden;
+  background: repeating-linear-gradient(135deg, var(--surface) 0 22px, var(--line) 22px 24px); }
+.menubar { position: absolute; left: 0; top: 0; width: 100%; height: 54px; padding: 0 34px; display: flex; align-items: center; justify-content: space-between;
+  background: var(--surface); border-bottom: 2px solid var(--line); font-size: 24px; font-weight: 500; color: var(--muted); }
+.panel { position: absolute; top: 0; left: 0; right: 0; margin: 0 auto; width: 300px; height: 54px; background: var(--notch); color: var(--on);
+  border-radius: 0 0 38px 38px; overflow: hidden; }
+.inner { position: absolute; top: 0; left: 50%; width: 1000px; margin-left: -500px; height: 400px; padding: 22px 40px 0; opacity: 0; }
+.cursor { position: absolute; left: 1100px; top: 420px; width: 54px; height: 54px; }
+.cursor path { fill: var(--ink); stroke: var(--surface); stroke-width: 1.6; stroke-linejoin: round; }
+
+.tabs { display: flex; gap: 10px; height: 30px; align-items: center; }
+.tabs i { width: 44px; height: 28px; border-radius: 14px; background: #2a2a2a; }
+.tabs i.on { background: var(--on); }
+
+.player { display: flex; align-items: center; gap: 34px; margin-top: 30px; }
+.cover { width: 190px; height: 190px; border-radius: 30px; background: var(--on); display: flex; align-items: center; justify-content: center; }
+.cover svg { width: 118px; height: 118px; fill: var(--notch); }
+.track { flex: 1; }
+.track b { display: block; font: 700 52px "Bricolage", sans-serif; }
+.track span { font-size: 28px; color: var(--on-muted); }
+.progress { height: 10px; border-radius: 10px; background: #2e2e2e; margin-top: 30px; overflow: hidden; }
+.progress i { display: block; width: 100%; height: 100%; background: var(--on); transform-origin: left center; }
+.wave { display: flex; align-items: center; gap: 10px; height: 110px; }
+.wave i { width: 13px; border-radius: 7px; background: var(--on); }
+.wave i:nth-child(1) { height: 36px; } .wave i:nth-child(2) { height: 74px; } .wave i:nth-child(3) { height: 110px; }
+.wave i:nth-child(4) { height: 60px; } .wave i:nth-child(5) { height: 42px; }
+
+/* Indicadores a los lados del notch */
+.wing { position: absolute; top: 0; height: 54px; width: 110px; display: flex; align-items: center; justify-content: center; opacity: 0; }
+.wing.left { left: 6px; } .wing.right { right: 6px; }
+.ic { width: 34px; height: 34px; fill: var(--on); position: absolute; }
+.ic .stroke, .ic.sm .stroke { fill: none; stroke: var(--on); stroke-width: 2.2; stroke-linecap: round; stroke-linejoin: round; }
+.pct { position: absolute; font-size: 28px; font-weight: 600; }
+.vol { opacity: 0; }
+
+.files { display: flex; gap: 26px; margin-top: 30px; }
+.file { width: 210px; height: 230px; border-radius: 26px; background: var(--tile); display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 18px; font-size: 28px; }
+.doc { width: 92px; height: 116px; border-radius: 12px; background: var(--on); padding: 22px 16px; display: flex; flex-direction: column; gap: 11px; }
+.doc i { height: 8px; border-radius: 4px; background: #b9b5ad; } .doc i:last-child { width: 60%; }
+.doc.img { padding: 0; align-items: center; justify-content: center; }
+.doc.img b { width: 50px; height: 50px; border-radius: 50%; background: var(--notch); }
+.file.ghost { background: transparent; border: 3px dashed #4a4a4a; color: var(--on-muted); }
+.plus { font: 700 76px "Bricolage", sans-serif; line-height: 1; color: #6a6a6a; }
+
+.cols { display: flex; gap: 26px; margin-top: 28px; }
+.col { flex: 1; display: flex; flex-direction: column; gap: 12px; }
+.row { height: 68px; border-radius: 16px; background: var(--tile); display: flex; align-items: center; gap: 14px; padding: 0 18px; font-size: 28px; }
+.row b { font-weight: 600; flex: 1; white-space: nowrap; overflow: hidden; }
+.row em { font-style: normal; color: var(--on-muted); font-size: 22px; white-space: nowrap; }
+.pill { background: var(--on); color: var(--notch); border-radius: 20px; padding: 5px 16px; font-size: 21px; font-weight: 600; }
+.ic.sm { position: static; width: 28px; height: 28px; }
+.mon .gauges { flex: 0.85; gap: 30px; padding-top: 10px; }
+.gl { display: flex; justify-content: space-between; align-items: baseline; font-size: 28px; }
+.gl em { font-style: normal; color: var(--on-muted); } .gl b { font-weight: 600; }
+.bar { height: 16px; border-radius: 8px; background: #2e2e2e; margin-top: 12px; overflow: hidden; }
+.bar i { display: block; height: 100%; border-radius: 8px; background: var(--on); transform-origin: left center; }
+.bar .g1 { width: 38%; } .bar .g2 { width: 60%; }
+.proc { height: 58px; } .proc em { width: 96px; text-align: right; }
+
+/* Rótulo inferior */
+.cap { position: absolute; left: 160px; top: 760px; width: 1600px; }
+.cap h2 { font: 700 104px "Bricolage", sans-serif; letter-spacing: -3px; line-height: 1.02; }
+.cap p { font-size: 46px; color: var(--muted); margin-top: 16px; }
+</style>
+  </head>
+  <body>
+    <div id="root" data-composition-id="main" data-start="0" data-duration="30.0" data-width="1920" data-height="1080">
+      <div id="s1" class="clip scene" data-start="0.0" data-duration="3.4" data-track-index="0">
+  <div class="intro">
+    <div class="logo"><svg viewBox="150 215 700 630" aria-hidden="true"><path d="M255 700Q370 350 665 235Q575 520 745 700Z"/><rect x="170" y="745" width="660" height="80" rx="40"/></svg></div>
+    <h1>Alero</h1>
+    <p class="tag es">El notch de tu Mac, convertido en panel.</p>
+    <p class="tag en">Your Mac's notch, turned into a panel.</p>
+  </div></div><div id="s2" class="clip scene" data-start="3.4" data-duration="5.0" data-track-index="0">
+      <div class="screen">
+        <div class="menubar"><span data-layout-ignore>Finder &nbsp; Archivo</span><span data-layout-ignore>dom 15 nov &nbsp; 9:41</span></div>
+        <div class="panel"><div class="inner"><div class="tabs"><i class="on"></i><i></i><i></i><i></i><i></i><i></i></div>
+  <div class="player">
+    <div class="cover"><svg viewBox="150 215 700 630" aria-hidden="true"><path d="M255 700Q370 350 665 235Q575 520 745 700Z"/><rect x="170" y="745" width="660" height="80" rx="40"/></svg></div>
+    <div class="track"><b>Marea baja</b><span>Ejemplo de canción · Safari</span><div class="progress"><i></i></div></div>
+    <div class="wave"><i></i><i></i><i></i><i></i><i></i></div>
+  </div></div></div>
+        <svg class="cursor" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 2l15 9-6.5 1.6L9 20z"/></svg>
+      </div><div class="cap"><h2>Pasa el cursor y se abre.</h2><p>Hover over the notch and it opens.</p></div></div><div id="s3" class="clip scene" data-start="8.4" data-duration="4.2" data-track-index="0">
+      <div class="screen">
+        <div class="menubar"><span data-layout-ignore>Finder &nbsp; Archivo</span><span data-layout-ignore>dom 15 nov &nbsp; 9:41</span></div>
+        <div class="panel">
+  <div class="wing left"><svg class="ic bolt" viewBox="0 0 24 24"><path d="M13 2L5 13.5h5.5L9.5 22 19 9.5h-6z"/></svg>
+    <svg class="ic vol" viewBox="0 0 24 24"><path d="M4 9.5h3.5L12 5.5v13l-4.5-4H4z"/><path class="stroke" d="M15.5 9a4.2 4.2 0 0 1 0 6M18 6.5a7.6 7.6 0 0 1 0 11"/></svg></div>
+  <div class="wing right"><span class="pct bolt">87%</span><span class="pct vol">65%</span></div><div class="inner"></div></div>
+        <svg class="cursor" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 2l15 9-6.5 1.6L9 20z"/></svg>
+      </div><div class="cap"><h2>Batería y volumen, de un vistazo.</h2><p>Battery and volume at a glance.</p></div></div><div id="s4" class="clip scene" data-start="12.6" data-duration="4.2" data-track-index="0">
+      <div class="screen">
+        <div class="menubar"><span data-layout-ignore>Finder &nbsp; Archivo</span><span data-layout-ignore>dom 15 nov &nbsp; 9:41</span></div>
+        <div class="panel"><div class="inner"><div class="tabs"><i class="on"></i><i></i><i></i><i></i><i></i><i></i></div>
+  <div class="files">
+    <div class="file"><div class="doc"><i></i><i></i><i></i></div><span>Informe.pdf</span></div>
+    <div class="file"><div class="doc img"><b></b></div><span>Captura.png</span></div>
+    <div class="file"><div class="doc"><i></i><i></i></div><span>Notas.txt</span></div>
+    <div class="file ghost"><div class="plus">+</div><span>Suelta aquí</span></div>
+  </div></div></div>
+        <svg class="cursor" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 2l15 9-6.5 1.6L9 20z"/></svg>
+      </div><div class="cap"><h2>Tus archivos, a la mano.</h2><p>Your files, close at hand.</p></div></div><div id="s5" class="clip scene" data-start="16.8" data-duration="4.4" data-track-index="0">
+      <div class="screen">
+        <div class="menubar"><span data-layout-ignore>Finder &nbsp; Archivo</span><span data-layout-ignore>dom 15 nov &nbsp; 9:41</span></div>
+        <div class="panel"><div class="inner"><div class="tabs"><i class="on"></i><i></i><i></i><i></i><i></i><i></i></div>
+  <div class="cols">
+    <div class="col">
+      <div class="row ev"><em data-layout-ignore>Hoy, 10:00</em><b>Revisión semanal</b><span class="pill" data-layout-ignore>Unirse</span></div>
+      <div class="row ev"><em data-layout-ignore>Hoy, 16:30</em><b>Llamada con cliente</b><span class="pill" data-layout-ignore>Unirse</span></div>
+      <div class="row ev"><em data-layout-ignore>Mañana, 9:00</em><b>Planeación</b></div>
+    </div>
+    <div class="col">
+      <div class="row clip-row"><b>notch.samdev.space</b><svg class="ic sm" viewBox="0 0 24 24"><rect class="stroke" x="8" y="8" width="11" height="12" rx="2"/><path class="stroke" d="M5 15V6a2 2 0 0 1 2-2h8"/></svg></div>
+      <div class="row clip-row"><b>Reunión movida al jueves</b><svg class="ic sm" viewBox="0 0 24 24"><rect class="stroke" x="8" y="8" width="11" height="12" rx="2"/><path class="stroke" d="M5 15V6a2 2 0 0 1 2-2h8"/></svg></div>
+      <div class="row clip-row"><b>#f1eee9</b><svg class="ic sm" viewBox="0 0 24 24"><rect class="stroke" x="8" y="8" width="11" height="12" rx="2"/><path class="stroke" d="M5 15V6a2 2 0 0 1 2-2h8"/></svg></div>
+    </div>
+  </div></div></div>
+        <svg class="cursor" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 2l15 9-6.5 1.6L9 20z"/></svg>
+      </div><div class="cap"><h2>Calendario y portapapeles.</h2><p>Calendar and clipboard.</p></div></div><div id="s6" class="clip scene" data-start="21.2" data-duration="4.4" data-track-index="0">
+      <div class="screen">
+        <div class="menubar"><span data-layout-ignore>Finder &nbsp; Archivo</span><span data-layout-ignore>dom 15 nov &nbsp; 9:41</span></div>
+        <div class="panel"><div class="inner"><div class="tabs"><i class="on"></i><i></i><i></i><i></i><i></i><i></i></div>
+  <div class="cols mon">
+    <div class="col gauges">
+      <div class="gauge"><div class="gl"><em data-layout-ignore>CPU</em><b>38%</b></div><div class="bar"><i class="g1"></i></div></div>
+      <div class="gauge"><div class="gl"><em data-layout-ignore>Memoria</em><b>9.6 de 16 GB</b></div><div class="bar"><i class="g2"></i></div></div>
+    </div>
+    <div class="col">
+      <div class="row proc"><b>Navegador</b><em data-layout-ignore>21.4%</em><em data-layout-ignore>1.8 GB</em></div>
+      <div class="row proc"><b>Editor de código</b><em data-layout-ignore>9.2%</em><em data-layout-ignore>1.1 GB</em></div>
+      <div class="row proc"><b>Música</b><em data-layout-ignore>3.1%</em><em data-layout-ignore>420 MB</em></div>
+    </div>
+  </div></div></div>
+        <svg class="cursor" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 2l15 9-6.5 1.6L9 20z"/></svg>
+      </div><div class="cap"><h2>Cuánto trabaja tu Mac.</h2><p>How hard your Mac is working.</p></div></div><div id="s7" class="clip scene" data-start="25.6" data-duration="4.4" data-track-index="0">
+  <div class="intro outro">
+    <div class="logo"><svg viewBox="150 215 700 630" aria-hidden="true"><path d="M255 700Q370 350 665 235Q575 520 745 700Z"/><rect x="170" y="745" width="660" height="80" rx="40"/></svg></div>
+    <h1>Alero</h1>
+    <p class="tag es">Gratis para Mac · Free for Mac</p>
+    <div class="cmd"><span>$</span> curl -fsSL https://notch.samdev.space/install.sh | bash</div>
+    <p class="url">notch.samdev.space</p>
+  </div></div>
+    </div>
+    <script>
+const tl = gsap.timeline({ paused: true });
+const OPEN_W = 1000, OPEN_H = 330, NOTCH_W = 300, NOTCH_H = 54;
+
+// Entrada y salida suave de cada escena
+function scene(id, start, dur) {
+  tl.fromTo("#" + id, { opacity: 0 }, { opacity: 1, duration: 0.35, ease: "power2.out" }, start);
+  tl.to("#" + id, { opacity: 0, duration: 0.3, ease: "power2.in" }, start + dur - 0.3);
+}
+// Rótulo: sube y aparece
+function caption(id, at) {
+  tl.fromTo("#" + id + " .cap h2", { opacity: 0, y: 46 }, { opacity: 1, y: 0, duration: 0.55, ease: "power3.out" }, at);
+  tl.fromTo("#" + id + " .cap p", { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: 0.55, ease: "power3.out" }, at + 0.14);
+}
+// El cursor sube al notch y el panel se abre
+function openPanel(id, at) {
+  tl.fromTo("#" + id + " .cursor", { x: 0, y: 0, opacity: 0 }, { opacity: 1, duration: 0.2 }, at);
+  tl.to("#" + id + " .cursor", { x: -300, y: -392, duration: 0.7, ease: "power2.inOut" }, at + 0.1);
+  tl.fromTo("#" + id + " .panel", { width: NOTCH_W, height: NOTCH_H }, { width: OPEN_W, height: OPEN_H, duration: 0.6, ease: "back.out(1.15)" }, at + 0.75);
+  tl.fromTo("#" + id + " .inner", { opacity: 0 }, { opacity: 1, duration: 0.35 }, at + 1.0);
+  tl.to("#" + id + " .cursor", { opacity: 0, duration: 0.25 }, at + 1.2);
+}
+// Aparición escalonada de una lista de elementos
+function stagger(selector, at, gap) {
+  document.querySelectorAll(selector).forEach(function (el, i) {
+    tl.fromTo(el, { opacity: 0, y: 34 }, { opacity: 1, y: 0, duration: 0.42, ease: "power3.out" }, at + i * gap);
+  });
+}
+
+// 1. Portada
+tl.to("#s1", { opacity: 0, duration: 0.3, ease: "power2.in" }, 3.1);
+tl.fromTo("#s1 .logo", { scale: 0.82 }, { scale: 1, duration: 0.8, ease: "back.out(1.8)" }, 0);
+tl.fromTo("#s1 h1", { y: 26 }, { y: 0, duration: 0.7, ease: "power3.out" }, 0);
+tl.fromTo("#s1 .tag.es", { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: 0.5, ease: "power3.out" }, 0.95);
+tl.fromTo("#s1 .tag.en", { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: 0.5, ease: "power3.out" }, 1.1);
+
+// 2. Abrir el panel: reproductor
+scene("s2", 3.4, 5.0);
+caption("s2", 3.6);
+openPanel("s2", 4.0);
+tl.fromTo("#s2 .cover", { scale: 0.7, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.45, ease: "back.out(1.5)" }, 5.05);
+tl.fromTo("#s2 .track", { opacity: 0, x: 30 }, { opacity: 1, x: 0, duration: 0.45, ease: "power3.out" }, 5.15);
+tl.fromTo("#s2 .progress i", { scaleX: 0.08 }, { scaleX: 0.62, duration: 3.0, ease: "none" }, 5.2);
+document.querySelectorAll("#s2 .wave i").forEach(function (bar, i) {
+  tl.fromTo(bar, { scaleY: 0.35 }, { scaleY: 1, duration: 0.3, repeat: 9, yoyo: true, ease: "sine.inOut" }, 5.2 + i * 0.09);
+});
+
+// 3. Indicadores de batería y volumen
+scene("s3", 8.4, 4.2);
+caption("s3", 8.6);
+tl.set("#s3 .cursor", { opacity: 0 }, 8.4);
+tl.fromTo("#s3 .panel", { width: NOTCH_W }, { width: 560, duration: 0.5, ease: "back.out(1.6)" }, 9.1);
+tl.fromTo("#s3 .wing", { opacity: 0 }, { opacity: 1, duration: 0.3 }, 9.3);
+tl.fromTo("#s3 .bolt", { opacity: 0, scale: 0.6 }, { opacity: 1, scale: 1, duration: 0.3, ease: "back.out(2)" }, 9.3);
+tl.to("#s3 .bolt", { opacity: 0, duration: 0.2 }, 10.5);
+tl.to("#s3 .panel", { width: 520, duration: 0.18, ease: "power2.in" }, 10.5);
+tl.to("#s3 .panel", { width: 560, duration: 0.3, ease: "back.out(2)" }, 10.7);
+tl.fromTo("#s3 .vol", { opacity: 0, scale: 0.6 }, { opacity: 1, scale: 1, duration: 0.3, ease: "back.out(2)" }, 10.7);
+tl.to("#s3 .wing", { opacity: 0, duration: 0.2 }, 11.9);
+tl.to("#s3 .panel", { width: NOTCH_W, duration: 0.3, ease: "power2.inOut" }, 11.9);
+
+// 4. Bandeja de archivos
+scene("s4", 12.6, 4.2);
+caption("s4", 12.8);
+openPanel("s4", 12.9);
+document.querySelectorAll("#s4 .file").forEach(function (el, i) {
+  tl.fromTo(el, { opacity: 0, y: -90, scale: 0.8 }, { opacity: 1, y: 0, scale: 1, duration: 0.5, ease: "back.out(1.4)" }, 14.0 + i * 0.22);
+});
+
+// 5. Calendario y portapapeles
+scene("s5", 16.8, 4.4);
+caption("s5", 17.0);
+openPanel("s5", 17.1);
+stagger("#s5 .ev", 18.15, 0.14);
+stagger("#s5 .clip-row", 18.45, 0.14);
+
+// 6. Monitor de recursos
+scene("s6", 21.2, 4.4);
+caption("s6", 21.4);
+openPanel("s6", 21.5);
+tl.fromTo("#s6 .gauge", { opacity: 0 }, { opacity: 1, duration: 0.3 }, 22.5);
+tl.fromTo("#s6 .g1", { scaleX: 0 }, { scaleX: 1, duration: 0.9, ease: "power3.out" }, 22.6);
+tl.fromTo("#s6 .g2", { scaleX: 0 }, { scaleX: 1, duration: 0.9, ease: "power3.out" }, 22.75);
+stagger("#s6 .proc", 22.7, 0.13);
+
+// 7. Cierre
+scene("s7", 25.6, 4.4);
+tl.fromTo("#s7 .logo", { scale: 0.6, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.6, ease: "back.out(1.6)" }, 25.75);
+tl.fromTo("#s7 h1", { opacity: 0, y: 40 }, { opacity: 1, y: 0, duration: 0.5, ease: "power3.out" }, 26.0);
+tl.fromTo("#s7 .tag", { opacity: 0, y: 26 }, { opacity: 1, y: 0, duration: 0.5, ease: "power3.out" }, 26.25);
+tl.fromTo("#s7 .cmd", { opacity: 0, scale: 0.92 }, { opacity: 1, scale: 1, duration: 0.5, ease: "back.out(1.4)" }, 26.6);
+tl.fromTo("#s7 .url", { opacity: 0, y: 26 }, { opacity: 1, y: 0, duration: 0.5, ease: "power3.out" }, 26.95);
+
+window.__timelines = window.__timelines || {};
+window.__timelines["main"] = tl;
+tl.seek(0);
+</script>
+  </body>
+</html>
