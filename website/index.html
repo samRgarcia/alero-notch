@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Alero · El notch de tu Mac, convertido en panel</title>
+<meta name="description" content="Alero convierte el notch de tu Mac en un panel con música, archivos, calendario, portapapeles y monitor de recursos.">
+<link rel="canonical" href="https://notch.samdev.space/">
+<meta property="og:title" content="Alero · El notch de tu Mac, convertido en panel">
+<meta property="og:description" content="Música, archivos, calendario, portapapeles y monitor de recursos en el notch de tu Mac. Gratis.">
+<meta property="og:url" content="https://notch.samdev.space/">
+<meta property="og:type" content="website">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='150 215 700 630'%3E%3Cpath d='M255 700Q370 350 665 235Q575 520 745 700Z'/%3E%3Crect x='170' y='745' width='660' height='80' rx='40'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+/* Una sola tinta sobre papel; el único "color" es el negro del notch. Columna centrada de 1040px. */
+:root {
+  --paper: #f1eee9;
+  --surface: #fbfaf7;
+  --ink: #111111;
+  --muted: #5d5a55;
+  --line: #d9d4cc;
+  --notch: #050505;
+  --display: "Bricolage Grotesque", "Helvetica Neue", Arial, sans-serif;
+  --body: "IBM Plex Sans", -apple-system, "Segoe UI", Roboto, sans-serif;
+  --mono: "IBM Plex Mono", ui-monospace, Menlo, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root { --paper: #131312; --surface: #1c1c1a; --ink: #f1eee9; --muted: #a39e96; --line: #33322f; color-scheme: dark; }
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body { margin: 0; background: var(--paper); color: var(--ink); font: 400 17px/1.6 var(--body); -webkit-font-smoothing: antialiased; }
+a { color: inherit; }
+:focus-visible { outline: 3px solid var(--ink); outline-offset: 3px; border-radius: 6px; }
+.wrap { max-width: 1040px; margin: 0 auto; padding: 0 24px; }
+h1, h2, h3 { font-family: var(--display); line-height: 1.08; margin: 0; text-wrap: balance; letter-spacing: -0.02em; }
+h1 { font-size: clamp(2.5rem, 6.4vw, 4.6rem); font-weight: 700; }
+h2 { font-size: clamp(1.7rem, 3.4vw, 2.4rem); font-weight: 700; }
+h3 { font-size: 1.12rem; font-weight: 700; letter-spacing: -0.01em; }
+p { margin: 0; }
+
+/* Cabecera */
+header.site { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 22px 0; }
+.brand { display: flex; align-items: center; gap: 10px; text-decoration: none; font: 700 1.3rem var(--display); letter-spacing: -0.02em; }
+.brand svg { width: 30px; height: 30px; fill: currentColor; }
+nav { display: flex; align-items: center; gap: 22px; flex-wrap: wrap; font-size: 0.95rem; }
+nav a { text-decoration: none; color: var(--muted); }
+nav a:hover { color: var(--ink); }
+
+/* Botones */
+.btn { display: inline-flex; align-items: center; gap: 10px; padding: 14px 22px; border-radius: 999px; border: 2px solid var(--ink);
+  background: var(--ink); color: var(--paper); font: 600 1rem var(--body); text-decoration: none; cursor: pointer; transition: transform .15s ease; }
+.btn:hover { transform: translateY(-2px); }
+.btn svg { width: 18px; height: 18px; fill: none; stroke: currentColor; stroke-width: 2.2; stroke-linecap: round; stroke-linejoin: round; }
+.btn.small { padding: 8px 16px; font-size: 0.92rem; }
+nav a.btn { color: var(--paper); }
+
+/* Portada */
+.hero { padding: 56px 0 28px; display: grid; gap: 26px; }
+.hero p.lead { font-size: 1.22rem; color: var(--muted); max-width: 34em; }
+.actions { display: flex; flex-wrap: wrap; align-items: center; gap: 14px 20px; }
+.meta { font-size: 0.9rem; color: var(--muted); }
+
+/* Caja del comando */
+.cmd { display: flex; align-items: center; gap: 12px; max-width: 640px; padding: 10px 10px 10px 18px; border: 2px solid var(--ink);
+  border-radius: 14px; background: var(--surface); }
+.cmd code { flex: 1; min-width: 0; overflow-x: auto; white-space: nowrap; font: 500 0.95rem var(--mono); padding: 6px 0; }
+.cmd code::before { content: "$ "; color: var(--muted); }
+.copy { flex: none; border: 0; border-radius: 9px; padding: 9px 14px; background: var(--ink); color: var(--paper); font: 600 0.88rem var(--body); cursor: pointer; }
+.cmd-label { font-size: 0.9rem; color: var(--muted); margin-bottom: 8px; }
+
+/* Demostración: el borde superior de una pantalla con el notch abierto */
+.demo { margin: 34px 0 0; border: 2px solid var(--ink); border-radius: 22px; background: var(--surface); overflow: hidden; }
+.screen { position: relative; height: 290px; background:
+  repeating-linear-gradient(135deg, transparent 0 13px, var(--line) 13px 14px); }
+.menubar { display: flex; justify-content: space-between; padding: 7px 18px; font: 500 0.78rem var(--body); color: var(--muted);
+  background: var(--surface); border-bottom: 1px solid var(--line); }
+.panel { position: absolute; top: 0; left: 50%; transform: translateX(-50%); width: min(560px, 92%); background: var(--notch); color: #f4f2ee;
+  border-radius: 0 0 26px 26px; padding: 12px 20px 20px; box-shadow: 0 18px 40px rgba(0,0,0,.22); }
+.panel-top { display: flex; justify-content: space-between; align-items: center; font: 500 0.74rem var(--body); color: #a9a6a0; height: 22px; }
+.tabs { display: flex; gap: 6px; }
+.tabs i { width: 22px; height: 16px; border-radius: 8px; background: #2a2a2a; }
+.tabs i:first-child { background: #f4f2ee; }
+.player { display: flex; align-items: center; gap: 16px; margin-top: 14px; }
+.cover { flex: none; width: 84px; height: 84px; border-radius: 14px; background: #f4f2ee; display: grid; place-items: center; }
+.cover svg { width: 52px; height: 52px; fill: #050505; }
+.track { flex: 1; min-width: 0; }
+.track b { display: block; font: 700 1.05rem var(--display); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.track span { font-size: 0.82rem; color: #a9a6a0; }
+.progress { height: 4px; border-radius: 4px; background: #2e2e2e; margin-top: 12px; }
+.progress i { display: block; width: 42%; height: 100%; border-radius: 4px; background: #f4f2ee; }
+.wave { flex: none; display: flex; align-items: center; gap: 4px; height: 44px; }
+.wave i { width: 5px; border-radius: 3px; background: #f4f2ee; animation: beat 1.1s ease-in-out infinite; }
+.wave i:nth-child(1) { height: 14px; animation-delay: -.2s; } .wave i:nth-child(2) { height: 30px; animation-delay: -.5s; }
+.wave i:nth-child(3) { height: 44px; } .wave i:nth-child(4) { height: 24px; animation-delay: -.7s; } .wave i:nth-child(5) { height: 16px; animation-delay: -.35s; }
+@keyframes beat { 50% { transform: scaleY(.45); } }
+@media (prefers-reduced-motion: reduce) { .wave i { animation: none; } .btn { transition: none; } html { scroll-behavior: auto; } }
+.demo figcaption { padding: 12px 18px; font-size: 0.88rem; color: var(--muted); border-top: 2px solid var(--ink); }
+
+/* Secciones */
+section { padding: 72px 0 0; }
+.features { display: grid; grid-template-columns: repeat(auto-fit, minmax(270px, 1fr)); gap: 0; margin-top: 30px; border-top: 2px solid var(--ink); }
+.feature { padding: 26px 22px 28px 0; border-bottom: 1px solid var(--line); }
+.feature svg { width: 30px; height: 30px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; margin-bottom: 14px; }
+.feature p { color: var(--muted); margin-top: 6px; font-size: 0.98rem; }
+
+.install { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 22px; margin-top: 30px; }
+.card { border: 2px solid var(--ink); border-radius: 20px; background: var(--surface); padding: 26px; display: flex; flex-direction: column; gap: 16px; }
+.card ol, .card ul { margin: 0; padding-left: 1.2em; color: var(--muted); }
+.card li + li { margin-top: 6px; }
+.note { font-size: 0.9rem; color: var(--muted); border-left: 3px solid var(--ink); padding-left: 12px; }
+
+details { border-bottom: 1px solid var(--line); padding: 18px 0; }
+details:first-of-type { border-top: 2px solid var(--ink); margin-top: 30px; }
+summary { cursor: pointer; font: 700 1.08rem var(--display); list-style: none; display: flex; justify-content: space-between; gap: 16px; }
+summary::-webkit-details-marker { display: none; }
+summary::after { content: "+"; font-weight: 500; }
+details[open] summary::after { content: "–"; }
+details p { color: var(--muted); margin-top: 10px; max-width: 62ch; }
+
+footer { margin-top: 84px; padding: 26px 0 40px; border-top: 2px solid var(--ink); display: flex; flex-wrap: wrap; justify-content: space-between; gap: 10px; font-size: 0.9rem; color: var(--muted); }
+@media (max-width: 560px) { nav a:not(.btn) { display: none; } .hero { padding-top: 30px; } .wave { display: none; } }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="site">
+    <a class="brand" href="#" aria-label="Alero, inicio">
+      <svg viewBox="150 215 700 630" aria-hidden="true"><path d="M255 700Q370 350 665 235Q575 520 745 700Z"/><rect x="170" y="745" width="660" height="80" rx="40"/></svg>
+      Alero
+    </a>
+    <nav aria-label="Secciones">
+      <a href="#funciones">Funciones</a>
+      <a href="#instalar">Instalar</a>
+      <a href="#preguntas">Preguntas</a>
+      <a class="btn small" href="downloads/Alero.dmg" download>Descargar</a>
+    </nav>
+  </header>
+
+  <main>
+    <div class="hero">
+      <h1>El notch de tu Mac, convertido en panel.</h1>
+      <p class="lead">Pasa el cursor por el notch y aparece lo que necesitas: lo que está sonando, tus archivos a la mano, tus próximos eventos, lo último que copiaste y cuánto está trabajando tu Mac.</p>
+      <div class="actions">
+        <a class="btn" href="downloads/Alero.dmg" download>
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4v11m0 0l-4.5-4.5M12 15l4.5-4.5M5 20h14"/></svg>
+          Descargar para Mac
+        </a>
+        <span class="meta">Gratis · Versión 0.1.0 · macOS 14 o posterior · Apple silicon e Intel</span>
+      </div>
+      <div>
+        <p class="cmd-label">O instálala desde la Terminal:</p>
+        <div class="cmd">
+          <code data-install-command>curl -fsSL https://notch.samdev.space/install.sh | bash</code>
+          <button class="copy" type="button" data-copy>Copiar</button>
+        </div>
+      </div>
+
+      <figure class="demo">
+        <div class="screen">
+          <div class="menubar"><span>Finder &nbsp; Archivo &nbsp; Edición &nbsp; Visualización</span><span>dom 15 nov &nbsp; 9:41</span></div>
+          <div class="panel">
+            <div class="panel-top"><span class="tabs"><i></i><i></i><i></i><i></i><i></i><i></i></span><span>87%</span></div>
+            <div class="player">
+              <div class="cover"><svg viewBox="150 215 700 630" aria-hidden="true"><path d="M255 700Q370 350 665 235Q575 520 745 700Z"/><rect x="170" y="745" width="660" height="80" rx="40"/></svg></div>
+              <div class="track"><b>Marea baja</b><span>Ejemplo de canción · Safari</span><div class="progress"><i></i></div></div>
+              <div class="wave" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></div>
+            </div>
+          </div>
+        </div>
+        <figcaption>Ilustración del panel abierto sobre el notch, con el reproductor a la vista.</figcaption>
+      </figure>
+    </div>
+
+    <section id="funciones">
+      <h2>Todo cabe en el notch</h2>
+      <div class="features">
+        <div class="feature">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 10v4M9 6v12M13 3v18M17 8v8M21 11v2"/></svg>
+          <h3>Lo que suena, de cualquier app</h3>
+          <p>Música o video del navegador, Spotify o Música: título, carátula, progreso y controles.</p>
+        </div>
+        <div class="feature">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="2" y="8" width="17" height="9" rx="2.5"/><path d="M22 11v3M10.5 9.5l-2 3h3l-2 3"/></svg>
+          <h3>Batería, volumen y brillo</h3>
+          <p>Un aviso discreto con el porcentaje al conectar el cargador o al cambiar el volumen.</p>
+        </div>
+        <div class="feature">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 13l2.5-8h13L21 13v5a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1zM3 13h5l1.5 2.5h5L16 13h5"/></svg>
+          <h3>Bandeja de archivos</h3>
+          <p>Arrastra archivos al notch y tenlos a la mano para abrirlos, moverlos o enviarlos por AirDrop.</p>
+        </div>
+        <div class="feature">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="3"/><path d="M3 10h18M8 3v4M16 3v4"/></svg>
+          <h3>Calendario con "Unirse"</h3>
+          <p>Tus eventos de hoy y mañana, con un botón para entrar a la videollamada.</p>
+        </div>
+        <div class="feature">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="4" width="14" height="17" rx="3"/><path d="M9 4.5V3h6v1.5M9 10h6M9 14h6"/></svg>
+          <h3>Portapapeles</h3>
+          <p>Los últimos 20 textos que copiaste; un clic los vuelve a copiar.</p>
+        </div>
+        <div class="feature">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="6" y="6" width="12" height="12" rx="2"/><path d="M9.5 3v3M14.5 3v3M9.5 18v3M14.5 18v3M3 9.5h3M3 14.5h3M18 9.5h3M18 14.5h3"/></svg>
+          <h3>Monitor de recursos</h3>
+          <p>Uso de CPU y memoria, y los procesos que más consumen, sin abrir otra app.</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="instalar">
+      <h2>Dos formas de instalar</h2>
+      <div class="install">
+        <div class="card">
+          <h3>Descarga directa</h3>
+          <ol>
+            <li>Descarga el archivo y ábrelo.</li>
+            <li>Arrastra Alero a la carpeta Aplicaciones.</li>
+            <li>Abre Alero desde Aplicaciones.</li>
+          </ol>
+          <a class="btn" href="downloads/Alero.dmg" download style="align-self:flex-start">Descargar Alero.dmg</a>
+          <p class="note">Si macOS dice que no puede abrirla, ve a Ajustes del Sistema › Privacidad y seguridad y pulsa "Abrir igualmente".</p>
+        </div>
+        <div class="card">
+          <h3>Con un comando</h3>
+          <p style="color:var(--muted)">Pega esto en la Terminal. Descarga Alero, la copia a Aplicaciones y la abre.</p>
+          <div class="cmd">
+            <code data-install-command>curl -fsSL https://notch.samdev.space/install.sh | bash</code>
+            <button class="copy" type="button" data-copy>Copiar</button>
+          </div>
+          <p class="note">El script es corto y puedes leerlo antes de ejecutarlo: <a href="install.sh">ver install.sh</a>.</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="preguntas">
+      <h2>Preguntas frecuentes</h2>
+      <details>
+        <summary>¿Cuánto cuesta?</summary>
+        <p>Nada. Alero es gratis: sin pagos, sin suscripción y sin periodo de prueba.</p>
+      </details>
+      <details>
+        <summary>¿Qué permisos pide?</summary>
+        <p>Automatización, para leer y controlar Spotify y Música, y Calendarios, para mostrar tus eventos. Puedes negar cualquiera de los dos y el resto de Alero sigue funcionando.</p>
+      </details>
+      <details>
+        <summary>¿Funciona en un Mac sin notch?</summary>
+        <p>Sí. En pantallas sin notch el panel aparece en el centro de la barra de menús.</p>
+      </details>
+      <details>
+        <summary>¿Alero envía mis datos a algún lado?</summary>
+        <p>No. No tiene cuentas ni analíticas y todo funciona en tu Mac. Lo único que descarga de internet es la carátula de la canción cuando usas Spotify.</p>
+      </details>
+      <details>
+        <summary>¿Cómo la desinstalo?</summary>
+        <p>Sal de Alero desde su icono en la barra de menús y arrastra la app de Aplicaciones a la Papelera.</p>
+      </details>
+    </section>
+  </main>
+
+  <footer>
+    <span>Alero 0.1.0 · Gratis</span>
+    <span>Hecho para macOS 14 o posterior</span>
+  </footer>
+</div>
+
+<script>
+// El comando usa el dominio donde esté publicada la página, así no hay que editarlo a mano.
+(function () {
+  var onWeb = location.protocol === "http:" || location.protocol === "https:";
+  var base = onWeb ? location.origin + location.pathname.replace(/[^/]*$/, "") : "https://notch.samdev.space/";
+  var command = "curl -fsSL " + base + "install.sh | bash";
+  document.querySelectorAll("[data-install-command]").forEach(function (el) { el.textContent = command; });
+
+  document.querySelectorAll("[data-copy]").forEach(function (button) {
+    button.addEventListener("click", function () {
+      var text = button.parentElement.querySelector("code").textContent;
+      var done = function () {
+        button.textContent = "Copiado";
+        setTimeout(function () { button.textContent = "Copiar"; }, 1600);
+      };
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(text).then(done, function () { button.textContent = "Selecciónalo y copia"; });
+      } else {
+        var area = document.createElement("textarea");
+        area.value = text; document.body.appendChild(area); area.select();
+        try { document.execCommand("copy"); done(); } catch (e) { button.textContent = "Selecciónalo y copia"; }
+        area.remove();
+      }
+    });
+  });
+})();
+</script>
+</body>
+</html>

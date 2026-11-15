@@ -1,0 +1,12 @@
+# Compilación de Swift y de la app
+.build/
+build/
+.swiftpm/
+
+# Dependencia que el script descarga sola (mediaremote-adapter)
+.deps/
+
+# macOS y editores
+.DS_Store
+*.xcodeproj/
+xcuserdata/
