@@ -2,15 +2,15 @@
 # Alero installer for the Terminal / Instalador de Alero para la Terminal.
 # Usage / Uso:  curl -fsSL https://notch.samdev.space/install.sh | bash
 #
-# What it does: downloads Alero.dmg, copies Alero.app to /Applications and opens it.
+# What it does: downloads Alero.dmg from GitHub Releases, copies Alero.app to /Applications and opens it.
 # It asks for no password and installs nothing else.
-# Qué hace: descarga Alero.dmg, copia Alero.app a /Applications y la abre.
+# Qué hace: descarga Alero.dmg desde GitHub Releases, copia Alero.app a /Applications y la abre.
 # No pide contraseña ni instala nada más.
 set -euo pipefail
 
-# Site address (override with ALERO_BASE_URL) / Dirección del sitio.
-BASE_URL="${ALERO_BASE_URL:-https://notch.samdev.space}"
-DMG_URL="$BASE_URL/downloads/Alero.dmg"
+# The installer comes from the latest GitHub release (override with ALERO_DMG_URL).
+# El instalador viene de la última versión publicada en GitHub.
+DMG_URL="${ALERO_DMG_URL:-https://github.com/samRgarcia/alero-notch/releases/latest/download/Alero.dmg}"
 
 # Messages in Spanish when the system is in Spanish, English otherwise.
 # Mensajes en español si el sistema está en español; en inglés en otro caso.
