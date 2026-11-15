@@ -78,6 +78,16 @@ python3 gen.py
 npx hyperframes render -o ../website/media/alero-features.mp4
 ```
 
+## Promo reel
+
+`promo/` has a 20-second vertical video (1080×1920) for Reels, in Spanish and English. Its source is the HyperFrames project in `reel/`. To render it again:
+
+```bash
+cd reel
+python3 gen.py es        # or: python3 gen.py en
+npx hyperframes render -o ../promo/alero-reel-es.mp4
+```
+
 ## Project layout
 
 | File | Contents |
@@ -179,6 +189,16 @@ El video de 30 segundos del sitio es una composición de [HyperFrames](https://g
 cd video
 python3 gen.py
 npx hyperframes render -o ../website/media/alero-features.mp4
+```
+
+### Reel de promoción
+
+`promo/` tiene un video vertical de 20 segundos (1080×1920) para Reels, en español y en inglés. Su fuente es el proyecto de HyperFrames en `reel/`. Para volver a generarlo:
+
+```bash
+cd reel
+python3 gen.py es        # o: python3 gen.py en
+npx hyperframes render -o ../promo/alero-reel-es.mp4
 ```
 
 ### Límites
