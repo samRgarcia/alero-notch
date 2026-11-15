@@ -12,7 +12,7 @@ Website: https://notch.samdev.space
 curl -fsSL https://notch.samdev.space/install.sh | bash
 ```
 
-Or download `Alero.dmg` from the website and drag the app into Applications. Alero is free.
+Or download `Alero.dmg` from the [latest release](https://github.com/samRgarcia/alero-notch/releases/latest) and drag the app into Applications. Alero is free.
 
 ## Features
 
@@ -49,11 +49,19 @@ macOS will ask for two permissions: **Automation** (Spotify / Music) and **Calen
 bash make-dmg.sh
 ```
 
-Creates `build/Alero-<version>.dmg` for Apple silicon and Intel and copies it to `website/downloads/Alero.dmg`. Without a paid Apple developer account the installer is unsigned: macOS blocks it on other Macs until the user allows it in System Settings › Privacy & Security. Instructions for signing and notarizing are at the top of `make-dmg.sh`.
+Creates `build/Alero-<version>.dmg` for Apple silicon and Intel. Without a paid Apple developer account the installer is unsigned: macOS blocks it on other Macs until the user allows it in System Settings › Privacy & Security. Instructions for signing and notarizing are at the top of `make-dmg.sh`.
+
+## Publish a release
+
+```bash
+bash release.sh
+```
+
+Builds the installer and publishes it to [GitHub Releases](https://github.com/samRgarcia/alero-notch/releases) under the version in `Support/Info.plist` (for example `v0.1.0`). The website and `install.sh` always download `Alero.dmg` from the latest release, so publishing a release is all it takes to ship an update. To release a new version, raise `CFBundleShortVersionString` in `Support/Info.plist`, commit, push and run the script again. Needs the GitHub CLI (`brew install gh`, then `gh auth login`).
 
 ## Website
 
-The `website/` folder is the full site (`index.html`, `install.sh`, `downloads/Alero.dmg`), in English and Spanish. To publish it on Vercel:
+The `website/` folder is the full site (`index.html`, `install.sh`, the feature video), in English and Spanish. Downloads come from GitHub Releases. To publish it on Vercel:
 
 ```bash
 cd website
@@ -107,7 +115,7 @@ Sitio web: https://notch.samdev.space
 curl -fsSL https://notch.samdev.space/install.sh | bash
 ```
 
-O descarga `Alero.dmg` desde el sitio y arrastra la app a Aplicaciones. Alero es gratis.
+O descarga `Alero.dmg` desde la [última versión](https://github.com/samRgarcia/alero-notch/releases/latest) y arrastra la app a Aplicaciones. Alero es gratis.
 
 ### Funciones
 
@@ -144,11 +152,19 @@ macOS pedirá dos permisos: **Automatización** (Spotify / Música) y **Calendar
 bash make-dmg.sh
 ```
 
-Genera `build/Alero-<versión>.dmg` para Apple silicon e Intel y lo copia a `website/downloads/Alero.dmg`. Sin una cuenta de desarrollador de Apple de pago el instalador va sin firma: macOS lo bloquea en otros equipos hasta que el usuario lo autoriza en Ajustes del Sistema › Privacidad y seguridad. Las instrucciones para firmar y notarizar están al inicio de `make-dmg.sh`.
+Genera `build/Alero-<versión>.dmg` para Apple silicon e Intel. Sin una cuenta de desarrollador de Apple de pago el instalador va sin firma: macOS lo bloquea en otros equipos hasta que el usuario lo autoriza en Ajustes del Sistema › Privacidad y seguridad. Las instrucciones para firmar y notarizar están al inicio de `make-dmg.sh`.
+
+### Publicar una versión
+
+```bash
+bash release.sh
+```
+
+Genera el instalador y lo publica en [GitHub Releases](https://github.com/samRgarcia/alero-notch/releases) con la versión de `Support/Info.plist` (por ejemplo `v0.1.0`). El sitio y `install.sh` descargan siempre `Alero.dmg` de la última versión, así que publicar una versión basta para distribuir una actualización. Para sacar una versión nueva, sube `CFBundleShortVersionString` en `Support/Info.plist`, haz commit y push, y vuelve a ejecutar el script. Necesita la herramienta de GitHub (`brew install gh` y luego `gh auth login`).
 
 ### Sitio web
 
-La carpeta `website/` es el sitio completo (`index.html`, `install.sh`, `downloads/Alero.dmg`), en inglés y español. Para publicarlo en Vercel:
+La carpeta `website/` es el sitio completo (`index.html`, `install.sh`, el video de funciones), en inglés y español. Las descargas vienen de GitHub Releases. Para publicarlo en Vercel:
 
 ```bash
 cd website

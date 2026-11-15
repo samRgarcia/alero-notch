@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://notch.samdev.space/sitemap.xml

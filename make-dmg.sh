@@ -43,7 +43,4 @@ else
     echo "En otros equipos macOS lo bloqueará hasta que el usuario lo autorice a mano."
 fi
 
-# 5. Deja una copia con nombre fijo en la carpeta del sitio web.
-mkdir -p website/downloads
-cp -f "$DMG" website/downloads/Alero.dmg
-echo "Copia para el sitio: website/downloads/Alero.dmg"
+echo "Para publicarlo en GitHub Releases: bash release.sh"

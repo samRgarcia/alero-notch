@@ -1,0 +1,48 @@
+# Alero
+
+> Alero is a free, open-source macOS app that turns the MacBook notch into a panel. Hover over the notch and it opens with what's playing, your files, calendar, clipboard and a resource monitor. / Alero es una app gratis y de código abierto para Mac que convierte el notch en un panel.
+
+- Price: free. No payments, subscription, account or trial.
+- Platform: macOS 14 or later, Apple silicon and Intel. Also works on displays without a notch.
+- Languages: Spanish and English (follows the system language).
+- Current version: 0.1.0
+- Privacy: no accounts, no analytics. Everything runs on the Mac.
+
+## Install
+
+Terminal:
+
+```bash
+curl -fsSL https://notch.samdev.space/install.sh | bash
+```
+
+Or download the installer and drag Alero into Applications:
+https://github.com/samRgarcia/alero-notch/releases/latest/download/Alero.dmg
+
+The build is not notarized. If macOS blocks it, open System Settings > Privacy & Security and click "Open Anyway".
+
+## Features
+
+- Now playing: music or video from any app (browser, Spotify, Music) with title, artwork, progress bar and previous / pause / next.
+- Indicators next to the notch: charger connected, volume and brightness, with the percentage.
+- File tray: drag files onto the notch to keep them handy, open them, drag them elsewhere or send them with AirDrop.
+- Calendar: today's and tomorrow's events with a "Join" button for Meet, Zoom, Teams and Webex links.
+- Notes and timer: a quick note that saves itself and a 5, 15 or 25 minute timer.
+- Clipboard: the last 20 copied texts; one click copies them again.
+- Resource monitor: total CPU and memory usage and the top processes.
+- Settings: choose tabs and indicators, open delay, haptics, open at login.
+
+## Permissions
+
+- Automation: to read and control Spotify and Music.
+- Calendars: to show events.
+
+Either can be denied; the rest of the app keeps working.
+
+## Links
+
+- Website: https://notch.samdev.space/
+- Source code: https://github.com/samRgarcia/alero-notch
+- Releases: https://github.com/samRgarcia/alero-notch/releases
+- Install script: https://notch.samdev.space/install.sh
+- Feature video (30 s): https://notch.samdev.space/media/alero-features.mp4
